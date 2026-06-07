@@ -1,7 +1,20 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { Reveal } from "../components/Reveal";
+
+export const metadata: Metadata = {
+  title: "Electrical Services",
+  description:
+    "Electrical contracting, solar installation, EV charger installation, air conditioning, and maintenance on the Sunshine Coast. QBCC licensed, CEC accredited, ARCtick certified.",
+  openGraph: {
+    title: "Electrical Services | Protocol Electrics",
+    description:
+      "Electrical contracting, solar installation, EV charger installation, air conditioning, and maintenance on the Sunshine Coast. QBCC licensed, CEC accredited, ARCtick certified.",
+    url: "https://www.protocolelectrics.com.au/services",
+  },
+};
 
 const services = [
   {

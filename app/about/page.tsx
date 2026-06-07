@@ -1,7 +1,20 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { Reveal } from "../components/Reveal";
+
+export const metadata: Metadata = {
+  title: "About",
+  description:
+    "Ten years in the trade. QBCC licensed, CEC accredited, ARCtick certified. Protocol Electrics is a small, focused electrical contracting business on the Sunshine Coast built on doing every job properly.",
+  openGraph: {
+    title: "About | Protocol Electrics",
+    description:
+      "Ten years in the trade. QBCC licensed, CEC accredited, ARCtick certified. Protocol Electrics is a small, focused electrical contracting business on the Sunshine Coast built on doing every job properly.",
+    url: "https://www.protocolelectrics.com.au/about",
+  },
+};
 
 const credentials = [
   { label: "Experience", value: "10 Years in the Trade" },

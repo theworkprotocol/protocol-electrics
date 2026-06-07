@@ -9,10 +9,64 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Protocol Electrics | Premium Electrical Contracting",
+  metadataBase: new URL("https://www.protocolelectrics.com.au"),
+  title: {
+    default: "Protocol Electrics | Sunshine Coast Electrician",
+    template: "%s | Protocol Electrics",
+  },
   description:
-    "High-end electrical contracting, solar installation, EV charger installation, and maintenance across Australia. Precision work for demanding projects.",
-  keywords: ["electrician Queensland", "electrical contractor QLD", "solar installation Brisbane", "EV charger installation Queensland", "air conditioning installation QLD", "QBCC electrician", "Protocol Electrics"],
+    "Protocol Electrics is a QBCC licensed electrical contractor on the Sunshine Coast, QLD. Specialising in residential electrical, solar installation, EV charger installation, and air conditioning. 10 years experience. No shortcuts.",
+  keywords: [
+    "Sunshine Coast electrician",
+    "electrician Sunshine Coast",
+    "solar installation Sunshine Coast",
+    "EV charger installation Sunshine Coast",
+    "air conditioning installation Sunshine Coast",
+    "electrician Noosa",
+    "electrician Buderim",
+    "electrician Maroochydore",
+    "QBCC electrician",
+    "CEC accredited solar installer",
+    "residential electrician Queensland",
+    "Protocol Electrics",
+  ],
+  openGraph: {
+    siteName: "Protocol Electrics",
+    locale: "en_AU",
+    type: "website",
+  },
+};
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "ElectricalContractor",
+  name: "Protocol Electrics",
+  url: "https://www.protocolelectrics.com.au",
+  telephone: "0400 000 000",
+  address: {
+    "@type": "PostalAddress",
+    addressRegion: "QLD",
+    addressLocality: "Sunshine Coast",
+    addressCountry: "AU",
+  },
+  areaServed: [
+    "Sunshine Coast",
+    "Noosa",
+    "Buderim",
+    "Maroochydore",
+    "Mooloolaba",
+    "Caloundra",
+    "Sippy Downs",
+    "Coolum Beach",
+  ],
+  priceRange: "$$",
+  description:
+    "QBCC licensed electrical contractor on the Sunshine Coast specialising in residential electrical, solar installation, EV charger installation, and air conditioning.",
+  hasCredential: [
+    "QBCC Licensed Electrical Contractor",
+    "CEC Accredited Solar Installer",
+    "ARCtick Licensed",
+  ],
 };
 
 export default function RootLayout({
@@ -22,6 +76,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} h-full`}>
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+        />
+      </head>
       <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );

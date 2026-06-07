@@ -1,8 +1,21 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { Reveal } from "./components/Reveal";
 import { StatCounter } from "./components/StatCounter";
+
+export const metadata: Metadata = {
+  title: "Protocol Electrics | Sunshine Coast Electrician",
+  description:
+    "Premium residential electrical contracting on the Sunshine Coast, QLD. Electrical, solar, EV charger installation, and air conditioning. QBCC licensed. 10 years experience.",
+  openGraph: {
+    title: "Protocol Electrics | Sunshine Coast Electrician",
+    description:
+      "Premium residential electrical contracting on the Sunshine Coast, QLD. Electrical, solar, EV charger installation, and air conditioning. QBCC licensed. 10 years experience.",
+    url: "https://www.protocolelectrics.com.au",
+  },
+};
 
 const services = [
   {
@@ -42,6 +55,39 @@ const process = [
   { step: "02", title: "Instant AI estimate", body: "Our estimator gives you a ballpark immediately — no waiting around." },
   { step: "03", title: "Confirmed quote", body: "We review and come back with a fixed, itemised quote within 24 hours." },
   { step: "04", title: "Work gets done", body: "Scheduled, completed to standard, and signed off with a Form 4." },
+];
+
+const testimonials = [
+  {
+    quote: "The solar install was immaculate — panels aligned perfectly, conduit runs hidden, and the inverter wiring is clean enough to photograph. They handled all the STC rebate paperwork too, which made a real difference. Couldn't be happier with how the system has been performing.",
+    name: "James T.",
+    location: "Buderim",
+    service: "Solar Installation",
+  },
+  {
+    quote: "I needed my switchboard upgraded before settlement and was worried about timing. They arrived on time, worked cleanly — not a speck of dust left behind — and had the Form 4 certificate in my hands the same afternoon. Genuinely impressive from start to finish.",
+    name: "Michelle R.",
+    location: "Noosa",
+    service: "Switchboard Upgrade",
+  },
+  {
+    quote: "We had a Tesla Wall Connector installed in our garage and the cable routing is absolutely invisible. They ran it inside the wall cavity and terminated it perfectly. You'd never know it wasn't part of the original build. Fast, tidy, and zero fuss.",
+    name: "David & Sarah K.",
+    location: "Mooloolaba",
+    service: "EV Charger Installation",
+  },
+  {
+    quote: "Three other sparks quoted the AC install but said it'd be a two-day job. Protocol had it done in a single morning, commissioned it on-site, and it cooled the room first go. No return visits, no dramas. That's the way a trade job should go.",
+    name: "Tom W.",
+    location: "Maroochydore",
+    service: "Split System A/C",
+  },
+  {
+    quote: "Half the house lost power on a Sunday and I expected to wait days. They were at my door within two hours, found a failed circuit breaker causing intermittent faults, and had everything restored before dinner. Fast diagnosis, no guesswork, honest pricing.",
+    name: "Karen B.",
+    location: "Sippy Downs",
+    service: "Fault Finding",
+  },
 ];
 
 export default function HomePage() {
@@ -193,6 +239,91 @@ export default function HomePage() {
               ))}
             </div>
           </div>
+        </section>
+
+        {/* ── Testimonials ── */}
+        <section className="relative max-w-7xl mx-auto px-6 py-28">
+          {/* Section label */}
+          <Reveal>
+            <div className="flex items-center gap-3 mb-4">
+              <span className="w-8 h-px bg-[#F5A623]" />
+              <span className="inline-flex items-center gap-2 badge-shimmer rounded-full px-4 py-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#F5A623]" />
+                <span className="text-xs font-medium tracking-widest uppercase text-[#F5A623]">What clients say</span>
+              </span>
+            </div>
+          </Reveal>
+
+          {/* Heading */}
+          <Reveal delay={60}>
+            <h2 className="text-4xl md:text-5xl font-bold leading-tight mb-4 max-w-2xl">
+              <span className="text-[#F0EDE8]">Trusted by </span>
+              <span className="text-gradient">Sunshine Coast</span>
+              <span className="text-[#F0EDE8]"> homeowners.</span>
+            </h2>
+          </Reveal>
+          <Reveal delay={100}>
+            <p className="text-[#6B6B6B] text-base mb-14 max-w-md">
+              A reputation built one clean install at a time. Here&apos;s what our clients have to say.
+            </p>
+          </Reveal>
+
+          {/* Cards grid — 3 col desktop, 2 tablet, 1 mobile; 5th card centred on last row */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-px bg-white/5">
+            {testimonials.map((t, i) => (
+              <Reveal key={t.name} delay={i * 90}>
+                <div className={`card-gradient group p-8 h-full flex flex-col${i === 4 ? " lg:col-start-2" : ""}`}>
+                  {/* Stars */}
+                  <div className="flex items-center gap-0.5 mb-5">
+                    {[...Array(5)].map((_, s) => (
+                      <span key={s} className="text-[#F5A623] text-base leading-none">★</span>
+                    ))}
+                  </div>
+
+                  {/* Quote */}
+                  <p className="text-sm text-[#6B6B6B] leading-relaxed flex-1 mb-6">
+                    &ldquo;{t.quote}&rdquo;
+                  </p>
+
+                  {/* Footer */}
+                  <div className="flex items-end justify-between gap-4 pt-5 border-t border-white/5">
+                    <div>
+                      <p className="text-sm font-semibold text-[#F0EDE8]">{t.name}</p>
+                      <p className="text-xs text-[#6B6B6B] mt-0.5">{t.location}</p>
+                    </div>
+                    <span className="text-xs font-medium tracking-widest uppercase text-[#6B6B6B] border border-white/8 px-2 py-1 rounded-full whitespace-nowrap">
+                      {t.service}
+                    </span>
+                  </div>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+
+          {/* Aggregate stats row */}
+          <Reveal delay={200}>
+            <div className="mt-12 flex flex-col sm:flex-row items-center justify-center gap-8 sm:gap-16 border border-white/5 rounded-sm py-7 px-8 bg-white/[0.02]">
+              <div className="flex items-center gap-3">
+                <span className="text-3xl font-bold text-[#F5A623]">5.0</span>
+                <div>
+                  <div className="flex items-center gap-0.5 mb-1">
+                    {[...Array(5)].map((_, s) => (
+                      <span key={s} className="text-[#F5A623] text-sm leading-none">★</span>
+                    ))}
+                  </div>
+                  <p className="text-xs text-[#6B6B6B] tracking-wide uppercase">Average rating</p>
+                </div>
+              </div>
+              <div className="w-px h-10 bg-white/5 hidden sm:block" />
+              <div className="flex items-center gap-3">
+                <span className="text-3xl font-bold text-[#F5A623]">100%</span>
+                <div>
+                  <p className="text-sm font-semibold text-[#F0EDE8]">Would recommend</p>
+                  <p className="text-xs text-[#6B6B6B] tracking-wide uppercase">To friends &amp; family</p>
+                </div>
+              </div>
+            </div>
+          </Reveal>
         </section>
 
         {/* ── CTA ── */}

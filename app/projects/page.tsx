@@ -1,8 +1,21 @@
+import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { Reveal } from "../components/Reveal";
 import { StatCounterCompact } from "../components/StatCounter";
+
+export const metadata: Metadata = {
+  title: "Projects",
+  description:
+    "Recent electrical, solar, EV charger, and air conditioning projects across the Sunshine Coast. Solar installs in Buderim, switchboard upgrades in Maroochydore, EV chargers in Noosa, and more.",
+  openGraph: {
+    title: "Projects | Protocol Electrics",
+    description:
+      "Recent electrical, solar, EV charger, and air conditioning projects across the Sunshine Coast. Solar installs in Buderim, switchboard upgrades in Maroochydore, EV chargers in Noosa, and more.",
+    url: "https://www.protocolelectrics.com.au/projects",
+  },
+};
 
 const projects = [
   {
