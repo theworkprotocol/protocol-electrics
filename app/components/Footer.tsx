@@ -60,6 +60,14 @@ export default function Footer() {
                 </li>
               ))}
             </ul>
+            <div className="mt-6 space-y-2">
+              <a href="tel:0428653509" className="flex items-center gap-2 text-xs text-[#6B6B6B] hover:text-[#F5A623] transition-colors">
+                <span className="text-[#F5A623]/60">📞</span> 0428 653 509
+              </a>
+              <a href="mailto:admin@protocolelectrics.com.au" className="flex items-center gap-2 text-xs text-[#6B6B6B] hover:text-[#F5A623] transition-colors">
+                <span className="text-[#F5A623]/60">✉</span> admin@protocolelectrics.com.au
+              </a>
+            </div>
           </div>
         </div>
 

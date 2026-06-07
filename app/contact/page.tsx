@@ -368,6 +368,21 @@ export default function ContactPage() {
               </ol>
             </div>
 
+            {/* Contact direct */}
+            <div className="border border-white/5 p-6 rounded-sm space-y-3">
+              <p className="text-xs font-semibold tracking-widest uppercase text-[#6B6B6B] mb-3">
+                Direct contact
+              </p>
+              <a href="tel:0428653509" className="flex items-center gap-3 text-sm text-[#F0EDE8] hover:text-[#F5A623] transition-colors">
+                <span className="w-7 h-7 rounded-sm border border-white/10 flex items-center justify-center text-base shrink-0">📞</span>
+                0428 653 509
+              </a>
+              <a href="mailto:admin@protocolelectrics.com.au" className="flex items-center gap-3 text-sm text-[#F0EDE8] hover:text-[#F5A623] transition-colors">
+                <span className="w-7 h-7 rounded-sm border border-white/10 flex items-center justify-center text-base shrink-0">✉</span>
+                admin@protocolelectrics.com.au
+              </a>
+            </div>
+
             {/* Response time */}
             <div className="border border-white/5 p-6 rounded-sm">
               <p className="text-xs font-semibold tracking-widest uppercase text-[#6B6B6B] mb-3">
@@ -376,7 +391,7 @@ export default function ContactPage() {
               <p className="text-[#F0EDE8] text-sm leading-relaxed">
                 Confirmed quotes within{" "}
                 <span className="text-[#F5A623] font-semibold">24 hours</span>.
-                For urgent work, reach out directly.
+                For urgent work, call directly.
               </p>
             </div>
 
