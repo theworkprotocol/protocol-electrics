@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect, useCallback } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 
 interface LineItem {
   id: string;
@@ -76,6 +76,12 @@ export default function QuoteBuilder() {
 
   // Notes
   const [notes, setNotes] = useState(DEFAULT_NOTES);
+
+  // Payment link
+  const [paymentLoading, setPaymentLoading] = useState(false);
+  const [paymentUrl, setPaymentUrl] = useState("");
+  const [paymentError, setPaymentError] = useState("");
+  const paymentInputRef = useRef<HTMLInputElement>(null);
 
   // Generate reference on mount
   useEffect(() => {
@@ -373,6 +379,100 @@ export default function QuoteBuilder() {
                 rows={4}
                 className="bg-[#0A0A0A] border border-white/10 text-[#F0EDE8] px-3 py-2 rounded-sm text-sm focus:border-[#F5A623]/50 outline-none w-full transition-colors resize-none"
               />
+            </section>
+
+            {/* Payment link */}
+            <section className="border border-[#F5A623]/20 rounded-sm overflow-hidden">
+              <div className="px-4 py-3 bg-[#F5A623]/5 border-b border-[#F5A623]/10 flex items-center justify-between gap-4">
+                <div>
+                  <p className="text-xs font-bold text-[#F5A623] uppercase tracking-widest">Request Payment</p>
+                  <p className="text-xs text-[#6B6B6B] mt-0.5">Generate a Stripe payment link for the total</p>
+                </div>
+                <button
+                  onClick={async () => {
+                    if (!email || total <= 0) return;
+                    setPaymentLoading(true);
+                    setPaymentUrl("");
+                    setPaymentError("");
+                    try {
+                      const res = await fetch("/api/payment/create-link", {
+                        method: "POST",
+                        headers: { "Content-Type": "application/json" },
+                        body: JSON.stringify({
+                          amount: total,
+                          description: `Electrical work — ${quoteRef}`,
+                          customerName,
+                          customerEmail: email,
+                          jobRef: quoteRef,
+                        }),
+                      });
+                      const data = await res.json();
+                      if (!res.ok) throw new Error(data.error || "Failed");
+                      setPaymentUrl(data.url);
+                    } catch (err) {
+                      setPaymentError(err instanceof Error ? err.message : "Failed to create link");
+                    } finally {
+                      setPaymentLoading(false);
+                    }
+                  }}
+                  disabled={paymentLoading || total <= 0 || !email}
+                  className="shrink-0 px-4 py-2 bg-[#F5A623] text-[#0A0A0A] text-xs font-bold rounded-sm hover:bg-[#FFD580] disabled:opacity-40 transition-colors"
+                >
+                  {paymentLoading ? "Generating…" : `Generate Link — ${formatAUD(total)}`}
+                </button>
+              </div>
+              {!email && (
+                <p className="px-4 py-2.5 text-xs text-[#6B6B6B]">Add customer email above to enable payment links.</p>
+              )}
+              {paymentError && (
+                <p className="px-4 py-2.5 text-xs text-red-400">{paymentError}</p>
+              )}
+              {paymentUrl && (
+                <div className="p-4 space-y-4">
+                  <div className="flex gap-2">
+                    <input
+                      ref={paymentInputRef}
+                      readOnly
+                      value={paymentUrl}
+                      className="flex-1 bg-[#0A0A0A] border border-white/10 text-[#F0EDE8] px-3 py-2 rounded-sm text-xs font-mono outline-none"
+                    />
+                    <button
+                      onClick={() => {
+                        navigator.clipboard.writeText(paymentUrl);
+                        if (paymentInputRef.current) {
+                          paymentInputRef.current.select();
+                        }
+                      }}
+                      className="px-3 py-2 border border-[#F5A623]/30 text-[#F5A623] text-xs font-semibold rounded-sm hover:bg-[#F5A623]/10 transition-colors shrink-0"
+                    >
+                      Copy
+                    </button>
+                  </div>
+                  <div className="flex items-center gap-4">
+                    {/* QR code */}
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={`https://api.qrserver.com/v1/create-qr-code/?size=120x120&bgcolor=0A0A0A&color=F5A623&data=${encodeURIComponent(paymentUrl)}`}
+                      alt="Payment QR code"
+                      width={120}
+                      height={120}
+                      className="rounded-sm border border-white/10"
+                    />
+                    <div className="space-y-1.5">
+                      <p className="text-xs text-[#6B6B6B]">Send the link or show the QR code.</p>
+                      <p className="text-xs text-[#6B6B6B]">Customer pays by card on their phone.</p>
+                      <a
+                        href={paymentUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-xs text-[#F5A623] hover:underline block"
+                      >
+                        Open link →
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              )}
             </section>
 
             {/* Bottom print button */}
