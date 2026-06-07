@@ -14,12 +14,12 @@ const STATUS_LABELS: Record<EnquiryStatus, string> = {
 };
 
 const STATUS_STYLE: Record<EnquiryStatus, string> = {
-  new: "bg-[#F5A623]/10 text-[#F5A623] border-[#F5A623]/20",
-  reviewed: "bg-blue-400/10 text-blue-400 border-blue-400/20",
-  quoted: "bg-purple-400/10 text-purple-400 border-purple-400/20",
-  booked: "bg-emerald-400/10 text-emerald-400 border-emerald-400/20",
-  completed: "bg-white/8 text-[#6B6B6B] border-white/10",
-  declined: "bg-red-400/10 text-red-400/70 border-red-400/15",
+  new: "text-blue-400 bg-blue-400/10 border-blue-400/20",
+  reviewed: "text-[#F5A623] bg-[#F5A623]/10 border-[#F5A623]/20",
+  quoted: "text-[#F5A623] bg-[#F5A623]/10 border-[#F5A623]/20",
+  booked: "text-emerald-400 bg-emerald-400/10 border-emerald-400/20",
+  completed: "text-[#6B6B6B] bg-white/5 border-white/10",
+  declined: "text-red-400/60 bg-red-400/5 border-red-400/10",
 };
 
 const SERVICE_ICONS: Record<string, string> = {
@@ -221,18 +221,10 @@ export default function AdminDashboard() {
                   <p className="text-xs text-[#6B6B6B]/50 mt-1">{new Date(selected.createdAt).toLocaleString("en-AU")}</p>
                 </div>
 
-                {/* Status changer */}
-                <select
-                  value={selected.status}
-                  onChange={(e) => updateStatus(selected.id, e.target.value as EnquiryStatus)}
-                  className={`text-xs font-medium px-3 py-1.5 rounded-full border bg-transparent outline-none cursor-pointer ${STATUS_STYLE[selected.status]}`}
-                >
-                  {(Object.keys(STATUS_LABELS) as EnquiryStatus[]).map((s) => (
-                    <option key={s} value={s} className="bg-[#0A0A0A] text-[#F0EDE8]">
-                      {STATUS_LABELS[s]}
-                    </option>
-                  ))}
-                </select>
+                {/* Current status badge */}
+                <span className={`shrink-0 text-xs font-medium px-3 py-1.5 rounded-full border ${STATUS_STYLE[selected.status]}`}>
+                  {STATUS_LABELS[selected.status]}
+                </span>
               </div>
 
               {/* Service + description */}
@@ -288,6 +280,30 @@ export default function AdminDashboard() {
                   </div>
                 </div>
               )}
+
+              {/* Pipeline */}
+              <div>
+                <p className="text-xs font-semibold tracking-widest uppercase text-[#6B6B6B] mb-3">Pipeline</p>
+                <div className="flex flex-wrap gap-2">
+                  {(Object.keys(STATUS_LABELS) as EnquiryStatus[]).map((s) => {
+                    const isActive = selected.status === s;
+                    return (
+                      <button
+                        key={s}
+                        onClick={() => updateStatus(selected.id, s)}
+                        disabled={isActive}
+                        className={`px-3 py-1.5 text-xs font-medium rounded-full border transition-all ${
+                          isActive
+                            ? STATUS_STYLE[s] + " opacity-100 cursor-default"
+                            : "border-white/8 text-[#6B6B6B] hover:border-white/20 hover:text-[#F0EDE8]"
+                        }`}
+                      >
+                        {STATUS_LABELS[s]}
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
 
               {/* Admin notes */}
               <div>

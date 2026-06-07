@@ -61,8 +61,8 @@ export async function POST(req: NextRequest) {
     // Optionally inject current enquiry context
     let systemWithContext = SYSTEM_PROMPT;
     if (includeEnquiries) {
-      const enquiries = getEnquiries().slice(0, 10);
-      const stats = getStats();
+      const enquiries = (await getEnquiries()).slice(0, 10);
+      const stats = await getStats();
       systemWithContext += `\n\nCURRENT ENQUIRY SUMMARY:\n${JSON.stringify(stats, null, 2)}\n\nRECENT ENQUIRIES (latest 10):\n${JSON.stringify(enquiries, null, 2)}`;
     }
 
