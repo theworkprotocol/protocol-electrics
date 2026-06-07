@@ -3,6 +3,7 @@ import Link from "next/link";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import { Reveal } from "../components/Reveal";
+import BrandStrip from "../components/BrandStrip";
 
 export const metadata: Metadata = {
   title: "Electrical Services",
@@ -171,6 +172,9 @@ export default function ServicesPage() {
             </Reveal>
           ))}
         </section>
+
+        {/* ── Brand Strip ── */}
+        <BrandStrip />
 
         {/* ── CTA ── */}
         <section className="relative border-t border-white/5 overflow-hidden">

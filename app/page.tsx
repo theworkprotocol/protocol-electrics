@@ -4,6 +4,7 @@ import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 import { Reveal } from "./components/Reveal";
 import { StatCounter } from "./components/StatCounter";
+import BrandStrip from "./components/BrandStrip";
 
 export const metadata: Metadata = {
   title: "Protocol Electrics | Sunshine Coast Electrician",
@@ -156,6 +157,9 @@ export default function HomePage() {
             </div>
           </div>
         </section>
+
+        {/* ── Brand Strip ── */}
+        <BrandStrip />
 
         {/* ── Services ── */}
         <section className="relative max-w-7xl mx-auto px-6 py-28">

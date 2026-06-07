@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 const nav = [
   { href: "/admin", label: "Dashboard", icon: "▦" },
   { href: "/admin/assistant", label: "AI Assistant", icon: "◈" },
+  { href: "/admin/quote", label: "Quote Builder", icon: "📋" },
 ];
 
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
