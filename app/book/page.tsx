@@ -236,25 +236,45 @@ export default function BookPage() {
 
   // ── Image helpers ──────────────────────────────────────────────────────────
 
+  // Downscale + re-encode to JPEG so payloads stay small.
+  // Vercel rejects request bodies over ~4.5MB, so raw phone photos
+  // (3-8MB, +33% as base64) must be compressed client-side.
   function processFile(file: File): Promise<UploadedImage> {
     return new Promise((resolve, reject) => {
       if (!file.type.startsWith("image/")) { reject(new Error("Not an image")); return; }
-      if (file.size > 8 * 1024 * 1024) { reject(new Error("Image too large (max 8MB)")); return; }
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        const dataUrl = e.target?.result as string;
+      if (file.size > 20 * 1024 * 1024) { reject(new Error("Image too large (max 20MB)")); return; }
+
+      const objectUrl = URL.createObjectURL(file);
+      const img = new Image();
+      img.onload = () => {
+        URL.revokeObjectURL(objectUrl);
+        const MAX_EDGE = 1600;
+        const scale = Math.min(1, MAX_EDGE / Math.max(img.width, img.height));
+        const w = Math.round(img.width * scale);
+        const h = Math.round(img.height * scale);
+
+        const canvas = document.createElement("canvas");
+        canvas.width = w;
+        canvas.height = h;
+        const ctx = canvas.getContext("2d");
+        if (!ctx) { reject(new Error("Could not process image")); return; }
+        ctx.drawImage(img, 0, 0, w, h);
+
+        const dataUrl = canvas.toDataURL("image/jpeg", 0.8);
         const base64 = dataUrl.split(",")[1];
-        const mediaType = file.type;
         resolve({
           id: `img_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
           base64,
-          mediaType,
+          mediaType: "image/jpeg",
           preview: dataUrl,
           name: file.name,
         });
       };
-      reader.onerror = reject;
-      reader.readAsDataURL(file);
+      img.onerror = () => {
+        URL.revokeObjectURL(objectUrl);
+        reject(new Error("Could not read image — try a JPG or PNG"));
+      };
+      img.src = objectUrl;
     });
   }
 
@@ -504,7 +524,7 @@ export default function BookPage() {
                         {dragOver ? "Drop it here" : "Drag & drop photos, or click to browse"}
                       </p>
                       <p className="text-xs text-[#6B6B6B]/40">
-                        JPG, PNG, WEBP · Max 8MB each · AI will analyse what it sees
+                        JPG, PNG, WEBP · Up to 4 photos · AI will analyse what it sees
                       </p>
                     </div>
                   </div>
