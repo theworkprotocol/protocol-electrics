@@ -167,3 +167,12 @@ body {
   animation: shimmer 3s linear infinite;
   border: 1px solid rgba(245, 166, 35, 0.2);
 }
+
+/* Prevent iOS Safari zoom-on-focus: inputs must be >=16px on touch screens */
+@media (max-width: 640px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px !important;
+  }
+}

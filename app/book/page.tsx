@@ -72,7 +72,7 @@ function StepIndicator({ step }: { step: number }) {
                 {done ? "✓" : n}
               </div>
               <span
-                className={`text-[10px] tracking-widest uppercase font-semibold ${
+                className={`text-[8px] sm:text-[10px] tracking-wider sm:tracking-widest uppercase font-semibold ${
                   active ? "text-[#F5A623]" : done ? "text-[#6B6B6B]" : "text-[#6B6B6B]/30"
                 }`}
               >
@@ -81,7 +81,7 @@ function StepIndicator({ step }: { step: number }) {
             </div>
             {i < steps.length - 1 && (
               <div
-                className={`w-16 h-px mx-2 mb-5 transition-all duration-500 ${
+                className={`w-4 sm:w-16 h-px mx-1 sm:mx-2 mb-5 transition-all duration-500 ${
                   done ? "bg-[#F5A623]/60" : "bg-white/8"
                 }`}
               />
@@ -548,7 +548,7 @@ export default function BookPage() {
               <div>
                 <div className="flex items-center justify-between mb-2">
                   <label className="text-xs font-semibold tracking-widest uppercase text-[#6B6B6B]">
-                    Photos <span className="text-[#6B6B6B]/40 normal-case font-normal tracking-normal">(optional — up to 4)</span>
+                    Photos <span className="text-[#6B6B6B]/40 normal-case font-normal tracking-normal">(optional — up to 8)</span>
                   </label>
                   {images.length > 0 && (
                     <span className="text-xs text-[#6B6B6B]/50">{images.length}/8 uploaded</span>
