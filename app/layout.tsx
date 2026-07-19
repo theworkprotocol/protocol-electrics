@@ -35,6 +35,9 @@ export const metadata: Metadata = {
     locale: "en_AU",
     type: "website",
   },
+  verification: {
+    google: "7dt_V_6aNEdOYgD6vOC5xh7o3xUXeFTSQEu5xh0ofWs",
+  },
 };
 
 const jsonLd = {
