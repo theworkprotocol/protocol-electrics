@@ -233,8 +233,70 @@ export default function BookPage() {
 
   const fileInputRef = useRef<HTMLInputElement>(null);
   const predictTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [uploadNote, setUploadNote] = useState("");
 
   // ── Image helpers ──────────────────────────────────────────────────────────
+
+  function drawToJpeg(source: HTMLImageElement | HTMLVideoElement, w0: number, h0: number, name: string): UploadedImage | null {
+    const MAX_EDGE = 1600;
+    const scale = Math.min(1, MAX_EDGE / Math.max(w0, h0));
+    const w = Math.round(w0 * scale);
+    const h = Math.round(h0 * scale);
+    const canvas = document.createElement("canvas");
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return null;
+    ctx.drawImage(source, 0, 0, w, h);
+    const dataUrl = canvas.toDataURL("image/jpeg", 0.8);
+    return {
+      id: `img_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
+      base64: dataUrl.split(",")[1],
+      mediaType: "image/jpeg",
+      preview: dataUrl,
+      name,
+    };
+  }
+
+  // The AI can't watch video, so grab evenly-spaced still frames
+  // and analyse those instead.
+  function extractVideoFrames(file: File, maxFrames: number): Promise<UploadedImage[]> {
+    return new Promise((resolve, reject) => {
+      if (file.size > 150 * 1024 * 1024) { reject(new Error("Video too large (max 150MB)")); return; }
+      const objectUrl = URL.createObjectURL(file);
+      const video = document.createElement("video");
+      video.muted = true;
+      video.playsInline = true;
+      video.preload = "metadata";
+
+      const cleanup = () => URL.revokeObjectURL(objectUrl);
+      const frames: UploadedImage[] = [];
+
+      video.onloadedmetadata = () => {
+        const duration = video.duration;
+        if (!isFinite(duration) || duration <= 0) { cleanup(); reject(new Error("Could not read video")); return; }
+        const count = Math.min(maxFrames, duration < 3 ? 1 : duration < 8 ? 2 : 3);
+        const times = Array.from({ length: count }, (_, i) => duration * ((i + 1) / (count + 1)));
+        let idx = 0;
+
+        const grabNext = () => {
+          if (idx >= times.length) { cleanup(); resolve(frames); return; }
+          video.currentTime = times[idx];
+        };
+
+        video.onseeked = () => {
+          const frame = drawToJpeg(video, video.videoWidth, video.videoHeight, `${file.name} — frame ${idx + 1}`);
+          if (frame) frames.push(frame);
+          idx += 1;
+          grabNext();
+        };
+
+        grabNext();
+      };
+      video.onerror = () => { cleanup(); reject(new Error("Could not read video — try MP4 or MOV")); };
+      video.src = objectUrl;
+    });
+  }
 
   // Downscale + re-encode to JPEG so payloads stay small.
   // Vercel rejects request bodies over ~4.5MB, so raw phone photos
@@ -248,27 +310,9 @@ export default function BookPage() {
       const img = new Image();
       img.onload = () => {
         URL.revokeObjectURL(objectUrl);
-        const MAX_EDGE = 1600;
-        const scale = Math.min(1, MAX_EDGE / Math.max(img.width, img.height));
-        const w = Math.round(img.width * scale);
-        const h = Math.round(img.height * scale);
-
-        const canvas = document.createElement("canvas");
-        canvas.width = w;
-        canvas.height = h;
-        const ctx = canvas.getContext("2d");
-        if (!ctx) { reject(new Error("Could not process image")); return; }
-        ctx.drawImage(img, 0, 0, w, h);
-
-        const dataUrl = canvas.toDataURL("image/jpeg", 0.8);
-        const base64 = dataUrl.split(",")[1];
-        resolve({
-          id: `img_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
-          base64,
-          mediaType: "image/jpeg",
-          preview: dataUrl,
-          name: file.name,
-        });
+        const result = drawToJpeg(img, img.width, img.height, file.name);
+        if (result) resolve(result);
+        else reject(new Error("Could not process image"));
       };
       img.onerror = () => {
         URL.revokeObjectURL(objectUrl);
@@ -279,10 +323,33 @@ export default function BookPage() {
   }
 
   async function addImages(files: FileList | File[]) {
-    const toAdd = Array.from(files).slice(0, 4 - images.length);
-    const processed = await Promise.all(toAdd.map(processFile).map((p) => p.catch(() => null)));
-    const valid = processed.filter(Boolean) as UploadedImage[];
-    setImages((prev) => [...prev, ...valid]);
+    setUploadNote("");
+    let slots = 4 - images.length;
+    const results: UploadedImage[] = [];
+    const errors: string[] = [];
+
+    for (const file of Array.from(files)) {
+      if (slots <= 0) break;
+      try {
+        if (file.type.startsWith("video/")) {
+          const frames = await extractVideoFrames(file, slots);
+          results.push(...frames);
+          slots -= frames.length;
+          if (frames.length > 0) {
+            setUploadNote(`Grabbed ${frames.length} still${frames.length > 1 ? "s" : ""} from your video for the AI to analyse.`);
+          }
+        } else {
+          const img = await processFile(file);
+          results.push(img);
+          slots -= 1;
+        }
+      } catch (err) {
+        errors.push(err instanceof Error ? err.message : "Couldn't process a file");
+      }
+    }
+
+    if (results.length > 0) setImages((prev) => [...prev, ...results]);
+    if (errors.length > 0) setUploadNote(errors[0]);
   }
 
   function removeImage(id: string) {
@@ -509,7 +576,7 @@ export default function BookPage() {
                     <input
                       ref={fileInputRef}
                       type="file"
-                      accept="image/*"
+                      accept="image/*,video/*"
                       multiple
                       className="hidden"
                       onChange={(e) => e.target.files && addImages(e.target.files)}
@@ -521,13 +588,17 @@ export default function BookPage() {
                         ↑
                       </div>
                       <p className="text-sm text-[#6B6B6B]">
-                        {dragOver ? "Drop it here" : "Drag & drop photos, or click to browse"}
+                        {dragOver ? "Drop it here" : "Drag & drop photos or a short video, or click to browse"}
                       </p>
                       <p className="text-xs text-[#6B6B6B]/40">
-                        JPG, PNG, WEBP · Up to 4 photos · AI will analyse what it sees
+                        Photos or video · Up to 4 shots · Videos become still frames for the AI
                       </p>
                     </div>
                   </div>
+                )}
+
+                {uploadNote && (
+                  <p className="text-xs text-[#F5A623]/80 mt-2">{uploadNote}</p>
                 )}
               </div>
 
