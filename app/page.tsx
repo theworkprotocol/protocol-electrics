@@ -121,16 +121,16 @@ export default function HomePage() {
               </h1>
 
               <p className="animate-fade-in-up delay-200 text-lg md:text-xl text-[#6B6B6B] leading-relaxed max-w-xl mb-10">
-                High-end electrical contracting, solar, and EV installs for Sunshine Coast homeowners who won&apos;t settle for second best.
+                High-end electrical contracting, solar, and EV installs for Sunshine Coast homeowners who won&apos;t settle for second best. Describe your job — even upload a photo — and get an AI-powered estimate on the spot.
               </p>
 
-              <div className="animate-fade-in-up delay-300 flex flex-col sm:flex-row gap-4">
+              <div className="animate-fade-in-up delay-300 flex flex-col sm:flex-row sm:items-center gap-4">
                 <Link
                   href="/book"
-                  className="btn-glow relative inline-flex items-center justify-center gap-2 px-8 py-4 bg-[#F5A623] text-[#0A0A0A] font-semibold text-sm tracking-wide hover:bg-[#FFD580] transition-colors rounded-sm z-0"
+                  className="btn-glow relative inline-flex items-center justify-center gap-2.5 px-8 py-4 bg-[#F5A623] text-[#0A0A0A] font-semibold text-sm tracking-wide hover:bg-[#FFD580] transition-colors rounded-sm z-0"
                 >
-                  <span className="w-1.5 h-1.5 rounded-full bg-[#0A0A0A]/40" />
-                  Book a Job
+                  <span className="text-base">⚡</span>
+                  Get an Instant Estimate
                 </Link>
                 <Link
                   href="/services"
@@ -140,6 +140,9 @@ export default function HomePage() {
                   <span className="text-[#6B6B6B]">→</span>
                 </Link>
               </div>
+              <p className="animate-fade-in-up delay-300 mt-4 text-xs text-[#6B6B6B]/70 tracking-wide">
+                Takes about 60 seconds · No obligation · Confirmed quote within 24 hours
+              </p>
             </div>
           </div>
 
@@ -328,6 +331,53 @@ export default function HomePage() {
               </div>
             </div>
           </Reveal>
+        </section>
+
+        {/* ── Service areas ── */}
+        <section className="relative border-y border-white/5 overflow-hidden">
+          <div className="absolute inset-0 bg-[#0D1B2A]/30" />
+          <div className="relative max-w-7xl mx-auto px-6 py-16">
+            <Reveal>
+              <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6 mb-8">
+                <div>
+                  <div className="flex items-center gap-3 mb-3">
+                    <span className="w-8 h-px bg-[#F5A623]" />
+                    <span className="text-xs font-semibold tracking-widest uppercase text-[#F5A623]">Service Areas</span>
+                  </div>
+                  <h2 className="text-2xl md:text-3xl font-bold text-[#F0EDE8]">
+                    Local to the whole Sunshine Coast.
+                  </h2>
+                </div>
+                <Link
+                  href="/locations"
+                  className="shrink-0 text-sm text-[#6B6B6B] hover:text-[#F5A623] transition-colors flex items-center gap-2"
+                >
+                  All service areas
+                  <span>→</span>
+                </Link>
+              </div>
+            </Reveal>
+            <Reveal delay={100}>
+              <div className="flex flex-wrap gap-3">
+                {[
+                  { name: "Noosa", slug: "noosa" },
+                  { name: "Buderim", slug: "buderim" },
+                  { name: "Maroochydore", slug: "maroochydore" },
+                  { name: "Mooloolaba", slug: "mooloolaba" },
+                  { name: "Sippy Downs", slug: "sippy-downs" },
+                  { name: "Coolum Beach", slug: "coolum-beach" },
+                ].map((s) => (
+                  <Link
+                    key={s.slug}
+                    href={`/locations/${s.slug}`}
+                    className="px-5 py-2.5 border border-white/8 rounded-full text-sm text-[#6B6B6B] hover:text-[#F0EDE8] hover:border-[#F5A623]/40 transition-all"
+                  >
+                    {s.name}
+                  </Link>
+                ))}
+              </div>
+            </Reveal>
+          </div>
         </section>
 
         {/* ── CTA ── */}

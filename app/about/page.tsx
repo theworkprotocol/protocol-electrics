@@ -108,6 +108,48 @@ export default function AboutPage() {
           </Reveal>
         </section>
 
+        {/* ── Photo gallery ── */}
+        <section className="border-t border-white/5">
+          <div className="max-w-7xl mx-auto px-6 py-20">
+            <div className="flex items-center gap-3 mb-4">
+              <span className="w-8 h-px bg-[#F5A623]" />
+              <span className="text-xs font-semibold tracking-widest uppercase text-[#F5A623]">
+                The Work, Up Close
+              </span>
+            </div>
+            <p className="text-[#6B6B6B] text-sm max-w-2xl leading-relaxed mb-12">
+              Real jobs, real finishes. No stock photos — everything here is our own work on the Sunshine Coast.
+            </p>
+
+            {/*
+              PHOTO PLACEHOLDERS — to swap in real photos:
+              1. Drop images into /public/photos/ (e.g. about-1.jpg)
+              2. Replace each placeholder div with:
+                 <Image src="/photos/about-1.jpg" alt="..." fill className="object-cover" />
+                 (add `import Image from "next/image"` at the top and `relative` to the wrapper)
+            */}
+            <div className="grid sm:grid-cols-3 gap-px bg-white/5">
+              {[
+                { label: "On the tools", hint: "Portrait / at work" },
+                { label: "Recent install", hint: "Finished switchboard or solar" },
+                { label: "Clean finishes", hint: "Detail shot of your best work" },
+              ].map((p, i) => (
+                <Reveal key={p.label} delay={i * 90}>
+                  <div className="aspect-[4/3] bg-[#0D0D0D] border border-dashed border-white/10 flex flex-col items-center justify-center gap-3 group hover:border-[#F5A623]/30 transition-colors">
+                    <div className="w-12 h-12 rounded-sm border border-white/8 flex items-center justify-center text-xl text-[#6B6B6B] group-hover:border-[#F5A623]/30 transition-colors">
+                      📷
+                    </div>
+                    <div className="text-center px-4">
+                      <p className="text-sm font-semibold text-[#F0EDE8]">{p.label}</p>
+                      <p className="text-xs text-[#6B6B6B] mt-1">{p.hint}</p>
+                    </div>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </section>
+
         {/* ── Values ── */}
         <section className="border-t border-white/5 relative overflow-hidden">
           <div className="absolute inset-0 bg-[#0D1B2A]/30" />

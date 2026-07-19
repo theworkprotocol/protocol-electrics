@@ -51,6 +51,13 @@ export default function Navbar() {
               </Link>
             ))}
             <Link
+              href="/emergency"
+              className="flex items-center gap-1.5 text-xs font-semibold tracking-wide text-red-400/80 hover:text-red-400 transition-colors"
+            >
+              <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
+              24/7
+            </Link>
+            <Link
               href="/book"
               className="btn-glow relative text-sm font-semibold px-5 py-2 bg-[#F5A623] text-[#0A0A0A] hover:bg-[#FFD580] transition-colors rounded-sm tracking-wide z-0"
             >
@@ -73,7 +80,7 @@ export default function Navbar() {
 
       {/* Mobile menu */}
       <div className={`md:hidden border-b border-white/5 bg-[#0A0A0A]/95 backdrop-blur-xl transition-all duration-300 ${
-        open ? "max-h-64 opacity-100" : "max-h-0 opacity-0 overflow-hidden"
+        open ? "max-h-[480px] opacity-100" : "max-h-0 opacity-0 overflow-hidden"
       }`}>
         <div className="px-6 py-5 flex flex-col gap-5">
           {links.map((l) => (
@@ -88,6 +95,14 @@ export default function Navbar() {
               {l.label}
             </Link>
           ))}
+          <Link
+            href="/emergency"
+            onClick={() => setOpen(false)}
+            className="flex items-center gap-2 text-sm tracking-wide text-red-400/80"
+          >
+            <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
+            24/7 Emergency
+          </Link>
           <Link
             href="/book"
             onClick={() => setOpen(false)}

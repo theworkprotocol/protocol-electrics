@@ -7,7 +7,7 @@ export default function Footer() {
       <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[200px] bg-[#F5A623]/3 rounded-full blur-[80px] pointer-events-none" />
 
       <div className="relative max-w-7xl mx-auto px-6 pt-16 pb-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-10 mb-16">
 
           {/* Brand */}
           <div className="md:col-span-2">
@@ -50,8 +50,9 @@ export default function Footer() {
               {[
                 { label: "About", href: "/about" },
                 { label: "Projects", href: "/projects" },
+                { label: "Service Areas", href: "/locations" },
+                { label: "FAQ", href: "/faq" },
                 { label: "Contact", href: "/contact" },
-                { label: "Get an Estimate", href: "/contact" },
               ].map((l) => (
                 <li key={l.label}>
                   <Link href={l.href} className="text-xs text-[#6B6B6B] hover:text-[#F5A623] transition-colors">
@@ -59,6 +60,30 @@ export default function Footer() {
                   </Link>
                 </li>
               ))}
+            </ul>
+          </div>
+
+          {/* Quick links */}
+          <div>
+            <p className="text-xs font-semibold tracking-widest uppercase text-[#6B6B6B] mb-5">Get Started</p>
+            <ul className="space-y-3">
+              {[
+                { label: "Book a Job", href: "/book" },
+                { label: "Get an Estimate", href: "/contact" },
+                { label: "Track Your Job", href: "/track" },
+              ].map((l) => (
+                <li key={l.label}>
+                  <Link href={l.href} className="text-xs text-[#6B6B6B] hover:text-[#F5A623] transition-colors">
+                    {l.label}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <Link href="/emergency" className="text-xs text-red-400/80 hover:text-red-400 transition-colors flex items-center gap-1.5">
+                  <span className="w-1 h-1 rounded-full bg-red-400 animate-pulse" />
+                  24/7 Emergency
+                </Link>
+              </li>
             </ul>
             <div className="mt-6 space-y-2">
               <a href="tel:0428653509" className="flex items-center gap-2 text-xs text-[#6B6B6B] hover:text-[#F5A623] transition-colors">
