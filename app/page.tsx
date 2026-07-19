@@ -105,6 +105,36 @@ export default function HomePage() {
           <div className="animate-pulse-glow absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-[#F5A623]/4 rounded-full blur-[100px] pointer-events-none" />
           <div className="animate-pulse-glow delay-300 absolute bottom-1/3 left-1/3 w-[300px] h-[300px] bg-[#0D1B2A]/80 rounded-full blur-[80px] pointer-events-none" />
 
+          {/* Circuit trace — animated current flowing through the board */}
+          <svg
+            className="absolute right-[-60px] top-1/2 -translate-y-1/2 w-[560px] h-[560px] pointer-events-none hidden lg:block opacity-70"
+            viewBox="0 0 560 560"
+            fill="none"
+            aria-hidden="true"
+          >
+            {/* Static faint traces */}
+            <g stroke="rgba(245,166,35,0.12)" strokeWidth="1.5">
+              <path d="M 40,120 H 240 L 300,180 V 300 L 360,360 H 520" />
+              <path d="M 40,240 H 180 L 240,300 V 420 L 300,480 H 460" />
+              <path d="M 120,40 V 160 L 180,220 H 320 L 380,160 V 40" />
+            </g>
+            {/* Animated flowing current */}
+            <g stroke="rgba(245,166,35,0.55)" strokeWidth="1.5" className="circuit-path">
+              <path d="M 40,120 H 240 L 300,180 V 300 L 360,360 H 520" />
+            </g>
+            <g stroke="rgba(245,166,35,0.3)" strokeWidth="1.5" className="circuit-path" style={{ animationDelay: "0.7s" }}>
+              <path d="M 40,240 H 180 L 240,300 V 420 L 300,480 H 460" />
+            </g>
+            {/* Junction nodes */}
+            <circle className="circuit-node" cx="300" cy="180" r="4" fill="#F5A623" />
+            <circle className="circuit-node" cx="240" cy="300" r="4" fill="#F5A623" />
+            <circle className="circuit-node" cx="360" cy="360" r="4" fill="#F5A623" />
+            {/* Node rings */}
+            <circle cx="300" cy="180" r="9" stroke="rgba(245,166,35,0.2)" strokeWidth="1" />
+            <circle cx="240" cy="300" r="9" stroke="rgba(245,166,35,0.2)" strokeWidth="1" />
+            <circle cx="360" cy="360" r="9" stroke="rgba(245,166,35,0.2)" strokeWidth="1" />
+          </svg>
+
           <div className="relative max-w-7xl mx-auto px-6 py-24 w-full">
             <div className="max-w-4xl">
               <div className="animate-fade-in inline-flex items-center gap-2 badge-shimmer rounded-full px-4 py-1.5 mb-8">
@@ -114,10 +144,10 @@ export default function HomePage() {
                 </span>
               </div>
 
-              <h1 className="animate-fade-in-up delay-100 text-6xl md:text-8xl font-bold leading-[0.9] tracking-tight mb-8">
-                <span className="block text-[#F0EDE8]">Precision</span>
-                <span className="block text-gradient">Electrical</span>
-                <span className="block text-[#F0EDE8]">Work.</span>
+              <h1 className="text-6xl md:text-8xl font-bold leading-[0.95] tracking-tight mb-8">
+                <span className="line-mask"><span className="text-[#F0EDE8]">Precision</span></span>
+                <span className="line-mask"><span className="text-gradient">Electrical</span></span>
+                <span className="line-mask"><span className="text-[#F0EDE8]">Work.</span></span>
               </h1>
 
               <p className="animate-fade-in-up delay-200 text-lg md:text-xl text-[#6B6B6B] leading-relaxed max-w-xl mb-10">
