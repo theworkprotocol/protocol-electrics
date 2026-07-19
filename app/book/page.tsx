@@ -248,7 +248,14 @@ export default function BookPage() {
     const ctx = canvas.getContext("2d");
     if (!ctx) return null;
     ctx.drawImage(source, 0, 0, w, h);
-    const dataUrl = canvas.toDataURL("image/jpeg", 0.8);
+
+    // Step quality down until the frame fits a ~350KB budget so a full
+    // set of 8 stays under Vercel's ~4.5MB request limit.
+    let dataUrl = "";
+    for (const q of [0.8, 0.65, 0.5]) {
+      dataUrl = canvas.toDataURL("image/jpeg", q);
+      if (dataUrl.length < 480_000) break;
+    }
     return {
       id: `img_${Date.now()}_${Math.random().toString(36).slice(2, 6)}`,
       base64: dataUrl.split(",")[1],
@@ -275,7 +282,7 @@ export default function BookPage() {
       video.onloadedmetadata = () => {
         const duration = video.duration;
         if (!isFinite(duration) || duration <= 0) { cleanup(); reject(new Error("Could not read video")); return; }
-        const count = Math.min(maxFrames, duration < 3 ? 1 : duration < 8 ? 2 : 3);
+        const count = Math.min(maxFrames, duration < 3 ? 1 : duration < 8 ? 3 : duration < 20 ? 4 : 6);
         const times = Array.from({ length: count }, (_, i) => duration * ((i + 1) / (count + 1)));
         let idx = 0;
 
@@ -324,7 +331,7 @@ export default function BookPage() {
 
   async function addImages(files: FileList | File[]) {
     setUploadNote("");
-    let slots = 4 - images.length;
+    let slots = 8 - images.length;
     const results: UploadedImage[] = [];
     const errors: string[] = [];
 
@@ -544,7 +551,7 @@ export default function BookPage() {
                     Photos <span className="text-[#6B6B6B]/40 normal-case font-normal tracking-normal">(optional — up to 4)</span>
                   </label>
                   {images.length > 0 && (
-                    <span className="text-xs text-[#6B6B6B]/50">{images.length}/4 uploaded</span>
+                    <span className="text-xs text-[#6B6B6B]/50">{images.length}/8 uploaded</span>
                   )}
                 </div>
 
@@ -561,7 +568,7 @@ export default function BookPage() {
                   </div>
                 )}
 
-                {images.length < 4 && (
+                {images.length < 8 && (
                   <div
                     onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
                     onDragLeave={() => setDragOver(false)}
@@ -591,7 +598,7 @@ export default function BookPage() {
                         {dragOver ? "Drop it here" : "Drag & drop photos or a short video, or click to browse"}
                       </p>
                       <p className="text-xs text-[#6B6B6B]/40">
-                        Photos or video · Up to 4 shots · Videos become still frames for the AI
+                        Photos or video · Up to 8 shots · Videos become still frames for the AI
                       </p>
                     </div>
                   </div>
