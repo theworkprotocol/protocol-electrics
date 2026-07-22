@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import SectionTrace from "../components/SectionTrace";
 import { Reveal } from "../components/Reveal";
 import { StatCounterCompact } from "../components/StatCounter";
 
@@ -115,6 +116,7 @@ export default function ProjectsPage() {
             <p className="text-[#6B6B6B] text-lg max-w-xl">
               A selection of recent installs across the Sunshine Coast. Every job here was done to spec, on time, and signed off properly.
             </p>
+            <SectionTrace className="mt-8" />
           </div>
         </section>
 

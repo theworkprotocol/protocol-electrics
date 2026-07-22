@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import SectionTrace from "../components/SectionTrace";
 import { Reveal } from "../components/Reveal";
 
 export const metadata: Metadata = {
@@ -52,6 +53,7 @@ export default function LocationsPage() {
             <p className="text-[#6B6B6B] text-lg max-w-xl">
               From Noosa in the north to Caloundra in the south. We&apos;re local, licensed, and in your area.
             </p>
+            <SectionTrace className="mt-8" />
           </div>
         </section>
 

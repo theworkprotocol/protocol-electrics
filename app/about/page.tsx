@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import SectionTrace from "../components/SectionTrace";
 import { Reveal } from "../components/Reveal";
 
 export const metadata: Metadata = {
@@ -69,6 +70,7 @@ export default function AboutPage() {
             <p className="text-[#6B6B6B] text-lg max-w-xl">
               Protocol Electrics exists because good electrical work shouldn&apos;t be hard to find.
             </p>
+            <SectionTrace className="mt-8" />
           </div>
         </section>
 

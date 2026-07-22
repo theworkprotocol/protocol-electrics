@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import SectionTrace from "../components/SectionTrace";
 import { Reveal } from "../components/Reveal";
 import BrandStrip from "../components/BrandStrip";
 
@@ -122,6 +123,7 @@ export default function ServicesPage() {
             <p className="text-[#6B6B6B] text-lg max-w-xl">
               Every service is delivered to the same standard — the highest one.
             </p>
+            <SectionTrace className="mt-8" />
           </div>
         </section>
 
