@@ -5,6 +5,9 @@ import Footer from "./components/Footer";
 import { Reveal } from "./components/Reveal";
 import { StatCounter } from "./components/StatCounter";
 import BrandStrip from "./components/BrandStrip";
+import Magnetic from "./components/Magnetic";
+import ParallaxGlow from "./components/ParallaxGlow";
+import PipelineFlow from "./components/PipelineFlow";
 
 export const metadata: Metadata = {
   title: "Protocol Electrics | Sunshine Coast Electrician",
@@ -102,8 +105,8 @@ export default function HomePage() {
           <div className="dot-grid absolute inset-0 opacity-60" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_60%_-10%,_rgba(13,27,42,0.9)_0%,_transparent_70%)]" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_50%_at_100%_50%,_rgba(245,166,35,0.04)_0%,_transparent_70%)]" />
-          <div className="animate-pulse-glow absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-[#F5A623]/4 rounded-full blur-[100px] pointer-events-none" />
-          <div className="animate-pulse-glow delay-300 absolute bottom-1/3 left-1/3 w-[300px] h-[300px] bg-[#0D1B2A]/80 rounded-full blur-[80px] pointer-events-none" />
+          <ParallaxGlow speed={120} className="animate-pulse-glow absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-[#F5A623]/4 rounded-full blur-[100px] pointer-events-none" />
+          <ParallaxGlow speed={-70} className="animate-pulse-glow delay-300 absolute bottom-1/3 left-1/3 w-[300px] h-[300px] bg-[#0D1B2A]/80 rounded-full blur-[80px] pointer-events-none" />
 
           {/* Circuit trace — animated current flowing through the board */}
           <svg
@@ -155,13 +158,15 @@ export default function HomePage() {
               </p>
 
               <div className="animate-fade-in-up delay-300 flex flex-col sm:flex-row sm:items-center gap-4">
-                <Link
-                  href="/book"
-                  className="btn-glow relative inline-flex items-center justify-center gap-2.5 px-8 py-4 bg-[#F5A623] text-[#0A0A0A] font-semibold text-sm tracking-wide hover:bg-[#FFD580] transition-colors rounded-sm z-0"
-                >
-                  <span className="text-base">⚡</span>
-                  Get an Instant Estimate
-                </Link>
+                <Magnetic>
+                  <Link
+                    href="/book"
+                    className="btn-glow relative inline-flex items-center justify-center gap-2.5 px-8 py-4 bg-[#F5A623] text-[#0A0A0A] font-semibold text-sm tracking-wide hover:bg-[#FFD580] transition-colors rounded-sm z-0 w-full sm:w-auto"
+                  >
+                    <span className="text-base">⚡</span>
+                    Get an Instant Estimate
+                  </Link>
+                </Magnetic>
                 <Link
                   href="/services"
                   className="inline-flex items-center justify-center gap-2 px-8 py-4 border border-white/8 text-[#F0EDE8] font-medium text-sm tracking-wide hover:border-white/20 hover:bg-white/3 transition-all rounded-sm"
@@ -263,6 +268,7 @@ export default function HomePage() {
               </h2>
             </Reveal>
 
+            <PipelineFlow />
             <div className="grid grid-cols-1 md:grid-cols-4 gap-px bg-white/5">
               {process.map((p, i) => (
                 <Reveal key={p.step} delay={i * 100}>
