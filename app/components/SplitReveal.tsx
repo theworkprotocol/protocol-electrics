@@ -47,11 +47,7 @@ export default function SplitReveal({
 
   let charIndex = 0;
   return (
-    <Tag
-      ref={ref}
-      className={className}
-      style={{ fontFamily: "var(--font-inter), system-ui, sans-serif" }}
-    >
+    <Tag ref={ref} className={className}>
       {lines.map((line, li) => (
         <span key={li} className="block">
           {line.text.split("").map((ch, ci) => {
