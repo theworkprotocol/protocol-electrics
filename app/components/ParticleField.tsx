@@ -237,18 +237,18 @@ export default function ParticleField() {
     const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const isMobile = window.innerWidth < 768;
 
-    const COLS = isMobile ? 170 : 320;
-    const ROWS = isMobile ? 80 : 130;
+    const COLS = isMobile ? 140 : 320;
+    const ROWS = isMobile ? 64 : 130;
     const SPACING = 22;
     const DEPTH = ROWS * SPACING;
     const HALF_SPAN = (COLS * SPACING) / 2;
-    const STAR_N = isMobile ? 700 : 1600;
+    const STAR_N = isMobile ? 420 : 1600;
     const PULSE_N = 8;
-    const RIBBON_STEP = 6;
-    const RIBBON_K = 6;
-    const MORPH_N = isMobile ? 1400 : 2800;
+    const RIBBON_STEP = isMobile ? 10 : 6;
+    const RIBBON_K = isMobile ? 4 : 6;
+    const MORPH_N = isMobile ? 900 : 2800;
 
-    const dpr = Math.min(window.devicePixelRatio || 1, 2);
+    const dpr = Math.min(window.devicePixelRatio || 1, isMobile ? 1.25 : 2);
 
     // ── Shader setup ──
     function compile(type: number, src: string) {
@@ -296,10 +296,10 @@ export default function ParticleField() {
     for (let k = 0; k < PULSE_N; k++) field.push(2, k, PULSE_N, 0);
     for (let i = 0; i < STAR_N; i++)
       field.push(3, Math.random(), Math.random(), 0.15 + Math.random() * 0.85);
-    const BOKEH_N = isMobile ? 10 : 20;
+    const BOKEH_N = isMobile ? 6 : 20;
     for (let i = 0; i < BOKEH_N; i++)
       field.push(4, Math.random(), Math.random(), Math.random());
-    const DOME_N = isMobile ? 550 : 1100;
+    const DOME_N = isMobile ? 360 : 1100;
     for (let i = 0; i < DOME_N; i++) field.push(5, i, DOME_N, Math.random());
     const fieldArr = new Float32Array(field);
     const FIELD_COUNT = fieldArr.length / 4;
@@ -423,7 +423,8 @@ export default function ParticleField() {
     let width = 0,
       height = 0,
       raf = 0,
-      t = 0;
+      t = 0,
+      frameNo = 0;
     let scrollOffset = 0,
       targetScroll = 0;
     let lost = false;
@@ -444,6 +445,7 @@ export default function ParticleField() {
     function frame() {
       if (!gl || lost) return;
       t += 0.016;
+      frameNo += 1;
       scrollOffset += (targetScroll - scrollOffset) * 0.06;
 
       gl.clear(gl.COLOR_BUFFER_BIT);
@@ -480,7 +482,10 @@ export default function ParticleField() {
       const cy = height * (isMobile ? 0.38 : 0.32);
       const scale = Math.min(width * 0.58, height * 0.56);
 
-      for (let i = 0; i < MORPH_N; i++) {
+      // Mobile runs morph physics at half rate; the GPU redraws the last
+      // streamed positions on off frames
+      const updateMorph = !isMobile || frameNo % 2 === 0;
+      for (let i = 0; updateMorph && i < MORPH_N; i++) {
         const p = morphParts[i];
         const hx = p.x * width + Math.sin(t * 0.6 + p.phase) * 16;
         const hy = p.y * height + Math.cos(t * 0.5 + p.phase) * 12;
@@ -514,7 +519,7 @@ export default function ParticleField() {
       gl.uniform1f(uIsMorph, 1);
       gl.uniform1f(uStrength, strength);
       gl.bindBuffer(gl.ARRAY_BUFFER, morphBuf);
-      gl.bufferSubData(gl.ARRAY_BUFFER, 0, morphArr);
+      if (updateMorph) gl.bufferSubData(gl.ARRAY_BUFFER, 0, morphArr);
       gl.vertexAttribPointer(aData, 4, gl.FLOAT, false, 0, 0);
       gl.drawArrays(gl.POINTS, 0, MORPH_N);
 
