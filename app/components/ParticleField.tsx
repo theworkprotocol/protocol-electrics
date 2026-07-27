@@ -231,7 +231,7 @@ export default function ParticleField() {
 
           // Static-discharge flash — a particle briefly goes white-hot
           if (((c * 13 + r * 7 + ((t * 6) | 0)) % 997) === 0) {
-            ctx.fillStyle = `rgba(255, 242, 205, ${0.7 * fade})`;
+            ctx.fillStyle = `rgba(186, 230, 253, ${0.75 * fade})`;
             ctx.fillRect(sx - 1.5, sy - 1.5, 3, 3);
           }
         }
@@ -280,9 +280,9 @@ export default function ParticleField() {
         const sx = width / 2 + xc * persp;
         const sy = horizonY - y * persp;
         const r = Math.min(4.5, Math.max(1.2, 3 * persp));
-        ctx.fillStyle = `rgba(245, 166, 35, ${0.22 * fade})`;
+        ctx.fillStyle = `rgba(56, 189, 248, ${0.3 * fade})`;
         ctx.fillRect(sx - r * 2, sy - r * 2, r * 4, r * 4);
-        ctx.fillStyle = `rgba(255, 244, 214, ${0.95 * fade})`;
+        ctx.fillStyle = `rgba(224, 242, 254, ${0.95 * fade})`;
         ctx.fillRect(sx - r * 0.7, sy - r * 0.7, r * 1.4, r * 1.4);
       }
 
@@ -295,9 +295,12 @@ export default function ParticleField() {
         const tw = 0.5 + 0.5 * Math.sin(t * 1.4 + s.phase);
         const alpha = (0.08 + 0.26 * tw) * s.depth;
         const size = 0.6 + s.depth * 0.9;
-        ctx.fillStyle = i % 17 === 0
-          ? `rgba(255, 213, 128, ${alpha * 1.6})`
-          : `rgba(245, 166, 35, ${alpha})`;
+        ctx.fillStyle =
+          i % 12 === 0
+            ? `rgba(125, 211, 252, ${alpha * 1.7})`
+            : i % 17 === 0
+            ? `rgba(255, 213, 128, ${alpha * 1.6})`
+            : `rgba(245, 166, 35, ${alpha})`;
         ctx.fillRect(sx, sy, size, size);
       }
 
@@ -363,7 +366,9 @@ export default function ParticleField() {
         const size = 0.9 + strength * 1.1;
 
         ctx.fillStyle =
-          i % 19 === 0
+          i % 23 === 0 && strength > 0.5
+            ? `rgba(125, 211, 252, ${Math.min(1, alpha * 1.6)})`
+            : i % 19 === 0
             ? `rgba(255, 213, 128, ${Math.min(1, alpha * 1.5)})`
             : `rgba(245, 166, 35, ${alpha})`;
         ctx.fillRect(p.px - size / 2, p.py - size / 2, size, size);
