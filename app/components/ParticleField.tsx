@@ -185,8 +185,11 @@ void main() {
 }
 `;
 
+const CAPTIONS = ["ELECTRICAL", "RESIDENTIAL", "LIGHTING"];
+
 export default function ParticleField() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const captionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -469,6 +472,18 @@ export default function ParticleField() {
         morphArr[o + 2] = p.phase;
         morphArr[o + 3] = p.colorSel;
       }
+      // Caption fades in under the formed symbol
+      const cap = captionRef.current;
+      if (cap) {
+        const o = Math.max(0, strength * 2 - 1); // appears in the back half of formation
+        cap.style.opacity = o.toFixed(3);
+        if (active >= 0) {
+          cap.textContent = CAPTIONS[active] ?? "";
+          cap.style.left = `${cx}px`;
+          cap.style.top = `${cy + scale * 0.38}px`;
+        }
+      }
+
       gl.uniform1f(uIsMorph, 1);
       gl.uniform1f(uStrength, strength);
       gl.bindBuffer(gl.ARRAY_BUFFER, morphBuf);
@@ -525,6 +540,13 @@ export default function ParticleField() {
         ref={canvasRef}
         aria-hidden="true"
         className="fixed inset-0 -z-10 pointer-events-none"
+      />
+      {/* Symbol caption — fades in when a shape completes */}
+      <div
+        ref={captionRef}
+        aria-hidden="true"
+        className="fixed -z-10 pointer-events-none font-mono text-[11px] tracking-[0.5em] text-[#F5A623]/80"
+        style={{ opacity: 0, transform: "translateX(-50%)" }}
       />
       {/* Vignette — pulls the edges dark for depth */}
       <div

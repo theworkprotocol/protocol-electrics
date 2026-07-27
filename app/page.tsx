@@ -149,6 +149,12 @@ export default function HomePage() {
           </div>
 
           <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0A0A0A] to-transparent" />
+
+          {/* Scroll cue */}
+          <div className="absolute bottom-7 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3 z-10">
+            <span className="font-mono text-[9px] tracking-[0.45em] uppercase text-[#6B6B6B]">Scroll</span>
+            <div className="scroll-cue-line" />
+          </div>
         </section>
 
         {/* ── Stats ── */}

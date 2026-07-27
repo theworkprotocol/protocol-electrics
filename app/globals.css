@@ -64,6 +64,7 @@ body {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   animation: gradient-drift 7s ease-in-out infinite;
+  filter: drop-shadow(0 0 26px rgba(245, 166, 35, 0.22));
 }
 
 @keyframes gradient-drift {
@@ -290,4 +291,20 @@ h1, h2, h3 {
 @media (prefers-reduced-motion: reduce) {
   .page-enter { animation: none; }
   .card-gradient, .card-gradient:hover { transform: none; transition: none; }
+}
+
+/* ─── Hero scroll cue ─── */
+.scroll-cue-line {
+  width: 1px;
+  height: 44px;
+  background: linear-gradient(to bottom, transparent, rgba(245, 166, 35, 0.7), transparent);
+  background-size: 100% 300%;
+  animation: cue-descend 2.2s ease-in-out infinite;
+}
+@keyframes cue-descend {
+  0% { background-position: 0 -44px; }
+  100% { background-position: 0 88px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .scroll-cue-line { animation: none; }
 }

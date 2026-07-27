@@ -20,7 +20,7 @@ export default function Navbar() {
   return (
     <header className="fixed top-0 left-0 right-0 z-50">
       {/* Glass bar */}
-      <div className="border-b border-white/5 bg-[#0A0A0A]/80 backdrop-blur-xl">
+      <div className="border-b border-white/5 bg-black/55 backdrop-blur-xl">
         <div className="max-w-7xl mx-auto px-6 flex items-center justify-between h-16">
 
           {/* Logo */}
