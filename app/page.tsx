@@ -9,6 +9,7 @@ import Magnetic from "./components/Magnetic";
 import ParallaxGlow from "./components/ParallaxGlow";
 import PipelineFlow from "./components/PipelineFlow";
 import SplitReveal from "./components/SplitReveal";
+import HeroTitle from "./components/HeroTitle";
 
 export const metadata: Metadata = {
   title: "Protocol Electrics | Sunshine Coast Electrician",
@@ -115,11 +116,7 @@ export default function HomePage() {
                 </span>
               </div>
 
-              <h1 className="text-6xl md:text-8xl font-bold leading-[0.95] tracking-tight mb-8">
-                <span className="line-mask"><span className="text-[#F0EDE8]">Precision</span></span>
-                <span className="line-mask"><span className="text-gradient">Electrical</span></span>
-                <span className="line-mask"><span className="text-[#F0EDE8]">Work.</span></span>
-              </h1>
+              <HeroTitle />
 
               <p className="animate-fade-in-up delay-200 text-lg md:text-xl text-[#6B6B6B] leading-relaxed max-w-xl mb-10">
                 High-end electrical contracting, solar, and EV installs for Sunshine Coast homeowners who won&apos;t settle for second best. Describe your job — even upload a photo — and get an AI-powered estimate on the spot.
