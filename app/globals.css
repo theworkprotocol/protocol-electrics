@@ -172,11 +172,11 @@ h1, h2, h3 {
 .btn-glow::after {
   content: '';
   position: absolute;
-  inset: -3px;
-  background: rgba(245, 166, 35, 0.45);
+  inset: -6px;
+  background: rgba(245, 166, 35, 0.6);
   border-radius: inherit;
-  filter: blur(10px);
-  opacity: 0.3;
+  filter: blur(16px);
+  opacity: 0.45;
   animation: cta-breathe 3.4s ease-in-out infinite;
   transition: opacity 0.3s;
   z-index: -1;
@@ -187,8 +187,8 @@ h1, h2, h3 {
 }
 
 @keyframes cta-breathe {
-  0%, 100% { opacity: 0.22; }
-  50% { opacity: 0.55; }
+  0%, 100% { opacity: 0.35; }
+  50% { opacity: 0.85; }
 }
 
 @media (prefers-reduced-motion: reduce) {

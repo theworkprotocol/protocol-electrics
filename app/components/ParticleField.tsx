@@ -24,9 +24,9 @@ export default function ParticleField() {
     const isMobile = window.innerWidth < 768;
 
     // Grid density — fewer points on mobile
-    const COLS = isMobile ? 104 : 190;
-    const ROWS = isMobile ? 50 : 78;
-    const SPACING = 25; // world units between points
+    const COLS = isMobile ? 120 : 220;
+    const ROWS = isMobile ? 58 : 92;
+    const SPACING = 22; // world units between points
     const DEPTH = ROWS * SPACING;
 
     const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
@@ -137,7 +137,7 @@ export default function ParticleField() {
     const anchors = [0.2, 0.5, 0.8];
     const INFLUENCE = 0.13;
 
-    const MORPH_N = isMobile ? 620 : 1150;
+    const MORPH_N = isMobile ? 800 : 1500;
     const morphParts = Array.from({ length: MORPH_N }, (_, i) => ({
       x: Math.random(),
       y: Math.random(),
@@ -148,7 +148,7 @@ export default function ParticleField() {
     }));
 
     // Ambient starfield — fills the full viewport including above the horizon
-    const STAR_N = isMobile ? 260 : 620;
+    const STAR_N = isMobile ? 380 : 900;
     const stars = Array.from({ length: STAR_N }, (_, i) => ({
       x: Math.random(),
       y: Math.random(),
@@ -220,14 +220,16 @@ export default function ParticleField() {
 
           // Occasional brighter "live" particle; dust near the track glows
           const bright = ((c * 31 + r * 17) % 23) === 0;
-          const blueLive = ((c * 7 + r * 29) % 31) === 0;
+          const isBlue = ((c * 3 + r * 5) % 5) < 2; // ~40% of the field
           const nearTrack = Math.abs(x - trackXc) < 58;
-          ctx.fillStyle = blueLive
-            ? `rgba(96, 200, 250, ${Math.min(1, alpha * 1.6)})`
-            : bright
-            ? `rgba(255, 213, 128, ${Math.min(1, alpha * 1.8)})`
+          ctx.fillStyle = bright
+            ? isBlue
+              ? `rgba(90, 175, 245, ${Math.min(1, alpha * 1.7)})`
+              : `rgba(255, 213, 128, ${Math.min(1, alpha * 1.8)})`
             : nearTrack
             ? `rgba(255, 220, 150, ${Math.min(1, alpha * 2.1)})`
+            : isBlue
+            ? `rgba(38, 132, 215, ${alpha * 1.1})`
             : `rgba(245, 166, 35, ${alpha})`;
           // fillRect is far cheaper than arc at this size and count
           ctx.fillRect(sx - size / 2, sy - size / 2, size, size);
@@ -241,14 +243,14 @@ export default function ParticleField() {
       }
 
       // ── Energised track: a shimmering ribbon of dense particles ──
-      for (let along = 10; along < DEPTH; along += 10) {
+      for (let along = 8; along < DEPTH; along += 8) {
         const z = along + 60;
         const wz = camZ + along;
         const persp = focal / z;
         const fade = Math.max(0, 1 - z / DEPTH);
         if (fade < 0.03) continue;
         const xc = trackX(wz);
-        for (let k = 0; k < 4; k++) {
+        for (let k = 0; k < 5; k++) {
           // Deterministic scatter across the ribbon width, shimmering over time
           const h = Math.sin(wz * 0.37 + k * 12.9898) * 43758.5453;
           const off = (h - Math.floor(h) - 0.5) * 64;
@@ -283,7 +285,7 @@ export default function ParticleField() {
         const sx = width / 2 + xc * persp;
         const sy = horizonY - y * persp;
         const r = Math.min(4.5, Math.max(1.2, 3 * persp));
-        ctx.fillStyle = `rgba(56, 189, 248, ${0.3 * fade})`;
+        ctx.fillStyle = `rgba(38, 132, 215, ${0.35 * fade})`;
         ctx.fillRect(sx - r * 2, sy - r * 2, r * 4, r * 4);
         ctx.fillStyle = `rgba(224, 242, 254, ${0.95 * fade})`;
         ctx.fillRect(sx - r * 0.7, sy - r * 0.7, r * 1.4, r * 1.4);
@@ -299,8 +301,8 @@ export default function ParticleField() {
         const alpha = (0.08 + 0.26 * tw) * s.depth;
         const size = 0.6 + s.depth * 0.9;
         ctx.fillStyle =
-          i % 6 === 0
-            ? `rgba(125, 211, 252, ${alpha * 1.9})`
+          i % 5 < 2
+            ? `rgba(52, 145, 225, ${alpha * 1.8})`
             : i % 17 === 0
             ? `rgba(255, 213, 128, ${alpha * 1.6})`
             : `rgba(245, 166, 35, ${alpha})`;
@@ -369,8 +371,8 @@ export default function ParticleField() {
         const size = 0.9 + strength * 1.1;
 
         ctx.fillStyle =
-          i % 11 === 0 && strength > 0.5
-            ? `rgba(125, 211, 252, ${Math.min(1, alpha * 1.6)})`
+          i % 5 < 2
+            ? `rgba(70, 160, 235, ${Math.min(1, alpha * 1.4)})`
             : i % 19 === 0
             ? `rgba(255, 213, 128, ${Math.min(1, alpha * 1.5)})`
             : `rgba(245, 166, 35, ${alpha})`;
