@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createEnquiry } from "@/lib/store";
 import { sendEnquiryNotification } from "@/lib/email";
+import { notifyMonique } from "@/lib/monique";
 
 export async function POST(req: NextRequest) {
   try {
@@ -18,6 +19,13 @@ export async function POST(req: NextRequest) {
       await sendEnquiryNotification(enquiry);
     } catch (emailErr) {
       console.error("[email] Failed to send enquiry notification:", emailErr);
+    }
+
+    // Ping Monique (Telegram + quote pipeline) — same rule: never break the submission
+    try {
+      await notifyMonique({ name, email, phone, service, description, estimate });
+    } catch (moniqueErr) {
+      console.error("[monique] Failed to notify:", moniqueErr);
     }
 
     return NextResponse.json(enquiry, { status: 201 });
