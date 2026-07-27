@@ -71,18 +71,10 @@ body {
   50% { background-position: 100% center; }
 }
 
-/* ─── Display typography — Remix-style: Inter, heavy, tight ─── */
+/* ─── Display typography ─── */
 h1, h2, h3 {
-  font-family: var(--font-inter), system-ui, sans-serif;
-  letter-spacing: -0.03em;
-}
-
-/* Terminal chrome — mono for badges and primary buttons */
-.badge-shimmer {
-  font-family: var(--font-jetbrains), monospace;
-}
-.btn-glow {
-  font-family: var(--font-jetbrains), monospace;
+  font-family: var(--font-display), var(--font-inter), system-ui, sans-serif;
+  letter-spacing: -0.02em;
 }
 
 /* ─── Hero line reveal ─── */
