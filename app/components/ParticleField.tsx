@@ -161,6 +161,55 @@ export default function ParticleField() {
       return c * c * (3 - 2 * c);
     }
 
+    // ── Electric arcs: brief jagged lightning flickers ──
+    type Arc = { x: number; y: number; ang: number; len: number; life: number; max: number };
+    const arcs: Arc[] = [];
+    const MAX_ARCS = isMobile ? 3 : 6;
+
+    function drawArc(a: Arc) {
+      if (!ctx) return;
+      const fade = Math.sin(Math.PI * (a.life / a.max)); // in-out
+      const segs = 6;
+      const step = a.len / segs;
+      // Build a fresh jagged path every frame so it flickers
+      const pts: [number, number][] = [[a.x, a.y]];
+      for (let s = 1; s <= segs; s++) {
+        const along = s * step;
+        const jitter = s === segs ? 0 : (Math.random() - 0.5) * 16;
+        pts.push([
+          a.x + Math.cos(a.ang) * along - Math.sin(a.ang) * jitter,
+          a.y + Math.sin(a.ang) * along + Math.cos(a.ang) * jitter,
+        ]);
+      }
+      // Glow pass then hot core pass
+      for (const [w, col] of [
+        [3.2, `rgba(245, 166, 35, ${0.28 * fade})`],
+        [1.2, `rgba(255, 240, 200, ${0.85 * fade})`],
+      ] as [number, string][]) {
+        ctx.strokeStyle = col;
+        ctx.lineWidth = w;
+        ctx.beginPath();
+        ctx.moveTo(pts[0][0], pts[0][1]);
+        for (let s = 1; s < pts.length; s++) ctx.lineTo(pts[s][0], pts[s][1]);
+        ctx.stroke();
+      }
+      // Occasional branch off the midpoint
+      if (a.len > 70) {
+        const mid = pts[3];
+        const bAng = a.ang + (Math.random() > 0.5 ? 0.9 : -0.9);
+        const bLen = a.len * 0.35;
+        ctx.strokeStyle = `rgba(255, 240, 200, ${0.5 * fade})`;
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(mid[0], mid[1]);
+        ctx.lineTo(
+          mid[0] + Math.cos(bAng) * bLen + (Math.random() - 0.5) * 10,
+          mid[1] + Math.sin(bAng) * bLen + (Math.random() - 0.5) * 10
+        );
+        ctx.stroke();
+      }
+    }
+
     function wave(x: number, z: number, time: number) {
       // Layered sines make rolling dune-like terrain
       return (
@@ -219,6 +268,12 @@ export default function ParticleField() {
             : `rgba(245, 166, 35, ${alpha})`;
           // fillRect is far cheaper than arc at this size and count
           ctx.fillRect(sx - size / 2, sy - size / 2, size, size);
+
+          // Static-discharge flash — a particle briefly goes white-hot
+          if (((c * 13 + r * 7 + ((t * 6) | 0)) % 997) === 0) {
+            ctx.fillStyle = `rgba(255, 242, 205, ${0.7 * fade})`;
+            ctx.fillRect(sx - 1.5, sy - 1.5, 3, 3);
+          }
         }
       }
 
@@ -285,6 +340,12 @@ export default function ParticleField() {
           p.py += (ty - p.py) * ease;
         }
 
+        // Current buzz — formed shapes vibrate with micro-jitter
+        if (strength > 0.4) {
+          p.px += (Math.random() - 0.5) * strength * 1.4;
+          p.py += (Math.random() - 0.5) * strength * 1.4;
+        }
+
         const tw = 0.6 + 0.4 * Math.sin(t * 2.1 + p.phase * 3);
         const alpha = (0.06 + strength * 0.82) * tw;
         if (alpha < 0.02) continue;
@@ -295,6 +356,41 @@ export default function ParticleField() {
             ? `rgba(255, 213, 128, ${Math.min(1, alpha * 1.5)})`
             : `rgba(245, 166, 35, ${alpha})`;
         ctx.fillRect(p.px - size / 2, p.py - size / 2, size, size);
+      }
+
+      // ── Electric arcs ──
+      if (arcs.length < MAX_ARCS && Math.random() < 0.07) {
+        if (active >= 0 && strength > 0.6 && Math.random() < 0.55) {
+          // Crackle along the formed shape's outline
+          const pts = shapes[active];
+          const tp = pts[(Math.random() * pts.length) | 0];
+          arcs.push({
+            x: cx + tp.x * scale,
+            y: cy + tp.y * scale,
+            ang: Math.random() * Math.PI * 2,
+            len: 40 + Math.random() * 60,
+            life: 0,
+            max: 0.2 + Math.random() * 0.25,
+          });
+        } else {
+          arcs.push({
+            x: Math.random() * width,
+            y: Math.random() * height,
+            ang: Math.random() * Math.PI * 2,
+            len: 50 + Math.random() * 90,
+            life: 0,
+            max: 0.22 + Math.random() * 0.3,
+          });
+        }
+      }
+      for (let i = arcs.length - 1; i >= 0; i--) {
+        const a = arcs[i];
+        a.life += 0.016;
+        if (a.life >= a.max) {
+          arcs.splice(i, 1);
+          continue;
+        }
+        drawArc(a);
       }
 
       raf = requestAnimationFrame(frame);
