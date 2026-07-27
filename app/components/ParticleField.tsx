@@ -161,55 +161,6 @@ export default function ParticleField() {
       return c * c * (3 - 2 * c);
     }
 
-    // ── Electric arcs: brief jagged lightning flickers ──
-    type Arc = { x: number; y: number; ang: number; len: number; life: number; max: number };
-    const arcs: Arc[] = [];
-    const MAX_ARCS = isMobile ? 3 : 6;
-
-    function drawArc(a: Arc) {
-      if (!ctx) return;
-      const fade = Math.sin(Math.PI * (a.life / a.max)); // in-out
-      const segs = 6;
-      const step = a.len / segs;
-      // Build a fresh jagged path every frame so it flickers
-      const pts: [number, number][] = [[a.x, a.y]];
-      for (let s = 1; s <= segs; s++) {
-        const along = s * step;
-        const jitter = s === segs ? 0 : (Math.random() - 0.5) * 16;
-        pts.push([
-          a.x + Math.cos(a.ang) * along - Math.sin(a.ang) * jitter,
-          a.y + Math.sin(a.ang) * along + Math.cos(a.ang) * jitter,
-        ]);
-      }
-      // Glow pass then hot core pass
-      for (const [w, col] of [
-        [3.2, `rgba(245, 166, 35, ${0.28 * fade})`],
-        [1.2, `rgba(255, 240, 200, ${0.85 * fade})`],
-      ] as [number, string][]) {
-        ctx.strokeStyle = col;
-        ctx.lineWidth = w;
-        ctx.beginPath();
-        ctx.moveTo(pts[0][0], pts[0][1]);
-        for (let s = 1; s < pts.length; s++) ctx.lineTo(pts[s][0], pts[s][1]);
-        ctx.stroke();
-      }
-      // Occasional branch off the midpoint
-      if (a.len > 70) {
-        const mid = pts[3];
-        const bAng = a.ang + (Math.random() > 0.5 ? 0.9 : -0.9);
-        const bLen = a.len * 0.35;
-        ctx.strokeStyle = `rgba(255, 240, 200, ${0.5 * fade})`;
-        ctx.lineWidth = 1;
-        ctx.beginPath();
-        ctx.moveTo(mid[0], mid[1]);
-        ctx.lineTo(
-          mid[0] + Math.cos(bAng) * bLen + (Math.random() - 0.5) * 10,
-          mid[1] + Math.sin(bAng) * bLen + (Math.random() - 0.5) * 10
-        );
-        ctx.stroke();
-      }
-    }
-
     function wave(x: number, z: number, time: number) {
       // Layered sines make rolling dune-like terrain
       return (
@@ -217,6 +168,11 @@ export default function ParticleField() {
         Math.sin(z * 0.014 - time * 0.22) * 58 +
         Math.sin((x + z) * 0.006 + time * 0.15) * 96
       );
+    }
+
+    // Winding centreline of the energised track, in world space
+    function trackX(wz: number) {
+      return 620 * Math.sin(wz * 0.0011) + 340 * Math.sin(wz * 0.00053 + 1.7);
     }
 
     function frame() {
@@ -241,6 +197,7 @@ export default function ParticleField() {
         if (z <= 8) continue;
 
         const worldZ = camZ + rowZ; // continuous z for stable wave shape
+        const trackXc = trackX(worldZ);
         const persp = focal / z;
         const fade = Math.max(0, 1 - z / DEPTH); // fog with distance
         if (fade <= 0.02) continue;
@@ -261,10 +218,13 @@ export default function ParticleField() {
 
           const size = Math.min(2.4, Math.max(0.6, 1.0 * persp * (0.7 + tw * 0.5)));
 
-          // Occasional brighter "live" particle
+          // Occasional brighter "live" particle; dust near the track glows
           const bright = ((c * 31 + r * 17) % 23) === 0;
+          const nearTrack = Math.abs(x - trackXc) < 58;
           ctx.fillStyle = bright
             ? `rgba(255, 213, 128, ${Math.min(1, alpha * 1.8)})`
+            : nearTrack
+            ? `rgba(255, 220, 150, ${Math.min(1, alpha * 2.1)})`
             : `rgba(245, 166, 35, ${alpha})`;
           // fillRect is far cheaper than arc at this size and count
           ctx.fillRect(sx - size / 2, sy - size / 2, size, size);
@@ -275,6 +235,55 @@ export default function ParticleField() {
             ctx.fillRect(sx - 1.5, sy - 1.5, 3, 3);
           }
         }
+      }
+
+      // ── Energised track: a shimmering ribbon of dense particles ──
+      for (let along = 10; along < DEPTH; along += 10) {
+        const z = along + 60;
+        const wz = camZ + along;
+        const persp = focal / z;
+        const fade = Math.max(0, 1 - z / DEPTH);
+        if (fade < 0.03) continue;
+        const xc = trackX(wz);
+        for (let k = 0; k < 4; k++) {
+          // Deterministic scatter across the ribbon width, shimmering over time
+          const h = Math.sin(wz * 0.37 + k * 12.9898) * 43758.5453;
+          const off = (h - Math.floor(h) - 0.5) * 64;
+          const px = xc + off;
+          const py = camHeight + wave(px, wz, t) + 4;
+          const sx = width / 2 + px * persp;
+          if (sx < -8 || sx > width + 8) continue;
+          const sy = horizonY - py * persp;
+          if (sy < -8 || sy > height + 8) continue;
+          const tw = 0.5 + 0.5 * Math.sin(t * 2.4 + wz * 0.05 + k * 1.7);
+          const alpha = fade * (0.3 + 0.45 * tw);
+          const size = Math.min(2.2, Math.max(0.6, 1.1 * persp));
+          ctx.fillStyle =
+            k === 0
+              ? `rgba(255, 240, 200, ${Math.min(1, alpha * 1.2)})`
+              : `rgba(255, 214, 128, ${alpha})`;
+          ctx.fillRect(sx - size / 2, sy - size / 2, size, size);
+        }
+      }
+
+      // Electron pulses streaming along the track
+      const PULSES = 7;
+      for (let k = 0; k < PULSES; k++) {
+        const along = ((k / PULSES) * DEPTH + t * 240) % DEPTH;
+        const z = along + 60;
+        const wz = camZ + along;
+        const persp = focal / z;
+        const fade = Math.max(0, 1 - z / DEPTH);
+        if (fade < 0.05) continue;
+        const xc = trackX(wz);
+        const y = camHeight + wave(xc, wz, t) + 4;
+        const sx = width / 2 + xc * persp;
+        const sy = horizonY - y * persp;
+        const r = Math.min(4.5, Math.max(1.2, 3 * persp));
+        ctx.fillStyle = `rgba(245, 166, 35, ${0.22 * fade})`;
+        ctx.fillRect(sx - r * 2, sy - r * 2, r * 4, r * 4);
+        ctx.fillStyle = `rgba(255, 244, 214, ${0.95 * fade})`;
+        ctx.fillRect(sx - r * 0.7, sy - r * 0.7, r * 1.4, r * 1.4);
       }
 
       // ── Starfield ──
@@ -300,7 +309,9 @@ export default function ParticleField() {
       let active = -1;
       let strength = 0;
       for (let k = 0; k < shapes.length && k < anchors.length; k++) {
-        const s = smoothstep(1 - Math.abs(progress - anchors[k]) / INFLUENCE);
+        // Plateau: fully formed within +/-0.06 of the anchor, soft ramp outside
+        const d = Math.abs(progress - anchors[k]);
+        const s = smoothstep(1 - Math.max(0, d - 0.06) / INFLUENCE);
         if (s > strength) {
           strength = s;
           active = k;
@@ -356,41 +367,6 @@ export default function ParticleField() {
             ? `rgba(255, 213, 128, ${Math.min(1, alpha * 1.5)})`
             : `rgba(245, 166, 35, ${alpha})`;
         ctx.fillRect(p.px - size / 2, p.py - size / 2, size, size);
-      }
-
-      // ── Electric arcs ──
-      if (arcs.length < MAX_ARCS && Math.random() < 0.07) {
-        if (active >= 0 && strength > 0.6 && Math.random() < 0.55) {
-          // Crackle along the formed shape's outline
-          const pts = shapes[active];
-          const tp = pts[(Math.random() * pts.length) | 0];
-          arcs.push({
-            x: cx + tp.x * scale,
-            y: cy + tp.y * scale,
-            ang: Math.random() * Math.PI * 2,
-            len: 40 + Math.random() * 60,
-            life: 0,
-            max: 0.2 + Math.random() * 0.25,
-          });
-        } else {
-          arcs.push({
-            x: Math.random() * width,
-            y: Math.random() * height,
-            ang: Math.random() * Math.PI * 2,
-            len: 50 + Math.random() * 90,
-            life: 0,
-            max: 0.22 + Math.random() * 0.3,
-          });
-        }
-      }
-      for (let i = arcs.length - 1; i >= 0; i--) {
-        const a = arcs[i];
-        a.life += 0.016;
-        if (a.life >= a.max) {
-          arcs.splice(i, 1);
-          continue;
-        }
-        drawArc(a);
       }
 
       raf = requestAnimationFrame(frame);
