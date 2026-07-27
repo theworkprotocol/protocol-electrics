@@ -21,21 +21,21 @@ export default function HeroTitle() {
     >
       <span className="line-mask">
         <span>
-          <motion.span style={{ x: x1 }} className="inline-block pr-[0.1em] text-[#F0EDE8]">
+          <motion.span style={{ x: x1 }} className="inline-block pr-[0.22em] text-[#F0EDE8]">
             Precision
           </motion.span>
         </span>
       </span>
       <span className="line-mask">
         <span>
-          <motion.span style={{ x: x2 }} className="inline-block pr-[0.1em] text-gradient">
+          <motion.span style={{ x: x2 }} className="inline-block pr-[0.22em] text-gradient">
             Electrical
           </motion.span>
         </span>
       </span>
       <span className="line-mask">
         <span>
-          <motion.span style={{ x: x3 }} className="inline-block pr-[0.1em] text-[#F0EDE8]">
+          <motion.span style={{ x: x3 }} className="inline-block pr-[0.22em] text-[#F0EDE8]">
             Work.
           </motion.span>
         </span>
