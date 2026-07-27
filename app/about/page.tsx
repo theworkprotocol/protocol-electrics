@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
+import Image from "next/image";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
 import SectionTrace from "../components/SectionTrace";
@@ -131,12 +132,26 @@ export default function AboutPage() {
                  (add `import Image from "next/image"` at the top and `relative` to the wrapper)
             */}
             <div className="grid sm:grid-cols-3 gap-px bg-white/5">
+              <Reveal>
+                <div className="relative aspect-[4/3] overflow-hidden group">
+                  <Image
+                    src="/photos/blake-portrait.png"
+                    alt="The owner of Protocol Electrics"
+                    fill
+                    sizes="(max-width: 640px) 100vw, 33vw"
+                    className="object-cover object-[center_22%] group-hover:scale-[1.03] transition-transform duration-500"
+                  />
+                  <div className="absolute inset-x-0 bottom-0 bg-gradient-to-t from-[#0A0A0A]/85 to-transparent pt-10 pb-3 px-4">
+                    <p className="text-sm font-semibold text-[#F0EDE8]">The face behind the work</p>
+                    <p className="text-xs text-[#F5A623]/80 mt-0.5">Owner · Protocol Electrics</p>
+                  </div>
+                </div>
+              </Reveal>
               {[
-                { label: "On the tools", hint: "Portrait / at work" },
                 { label: "Recent install", hint: "Finished switchboard or solar" },
                 { label: "Clean finishes", hint: "Detail shot of your best work" },
               ].map((p, i) => (
-                <Reveal key={p.label} delay={i * 90}>
+                <Reveal key={p.label} delay={(i + 1) * 90}>
                   <div className="aspect-[4/3] bg-[#0D0D0D] border border-dashed border-white/10 flex flex-col items-center justify-center gap-3 group hover:border-[#F5A623]/30 transition-colors">
                     <div className="w-12 h-12 rounded-sm border border-white/8 flex items-center justify-center text-xl text-[#6B6B6B] group-hover:border-[#F5A623]/30 transition-colors">
                       📷

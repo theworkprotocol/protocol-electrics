@@ -176,7 +176,7 @@ export default function HomePage() {
                 </Link>
               </div>
               <p className="animate-fade-in-up delay-300 mt-4 text-xs text-[#6B6B6B]/70 tracking-wide">
-                Takes about 60 seconds · No obligation · Confirmed quote within 24 hours
+                Takes about 60 seconds · No obligation · Fixed-price quote within 24 hours
               </p>
             </div>
           </div>

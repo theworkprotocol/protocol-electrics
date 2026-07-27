@@ -112,7 +112,7 @@ export default function ServicesPage() {
             <div className="inline-flex items-center gap-2 badge-shimmer rounded-full px-4 py-1.5 mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-[#F5A623] animate-pulse" />
               <span className="text-xs font-medium tracking-widest uppercase text-[#F5A623]">
-                Services
+                Residential Specialists
               </span>
             </div>
             <h1 className="text-4xl md:text-6xl font-bold leading-tight max-w-2xl mb-4">
@@ -121,7 +121,7 @@ export default function ServicesPage() {
               <span className="text-gradient">how we do it.</span>
             </h1>
             <p className="text-[#6B6B6B] text-lg max-w-xl">
-              Every service is delivered to the same standard — the highest one.
+              Residential electrical, done properly. Every job is a fixed price agreed before we start — the quote is the invoice.
             </p>
             <SectionTrace className="mt-8" />
           </div>

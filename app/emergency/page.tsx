@@ -72,19 +72,19 @@ const steps = [
 
 const pricing = [
   {
-    label: "After-hours callout",
-    value: "$150",
-    note: null,
+    label: "Fixed price, every time",
+    value: "Priced before we start",
+    note: "You approve the price over the phone before we're on the road — no hourly rates, no open-ended bills.",
   },
   {
-    label: "After-hours labour",
-    value: "$180/hr",
-    note: null,
+    label: "The price is the price",
+    value: "No surprise invoices",
+    note: "The number we agree on is the number you pay, even if the job takes longer than expected.",
   },
   {
-    label: "Standard hours labour",
-    value: "$120/hr",
-    note: "Mon–Fri 7am–5pm",
+    label: "Available around the clock",
+    value: "24/7 response",
+    note: "Genuine emergencies get answered any hour, any day — weekends and public holidays included.",
   },
 ];
 
@@ -244,10 +244,10 @@ export default function EmergencyPage() {
           <Reveal>
             <div className="mb-12">
               <p className="text-xs font-medium tracking-widest uppercase text-[#F5A623] mb-3">
-                Transparent pricing
+                Fixed-price emergency work
               </p>
               <h2 className="text-3xl md:text-4xl font-bold text-[#F0EDE8]">
-                No surprises
+                Know the price before we knock
               </h2>
             </div>
           </Reveal>
@@ -259,7 +259,7 @@ export default function EmergencyPage() {
                   <p className="text-xs font-medium tracking-widest uppercase text-[#6B6B6B] mb-3">
                     {item.label}
                   </p>
-                  <p className="text-4xl font-bold text-[#F0EDE8] mb-1">
+                  <p className="text-2xl font-bold text-[#F0EDE8] mb-1">
                     {item.value}
                   </p>
                   {item.note && (
@@ -273,7 +273,7 @@ export default function EmergencyPage() {
           <Reveal delay={240}>
             <p className="text-sm text-[#6B6B6B] flex items-center gap-2">
               <span className="w-1 h-1 rounded-full bg-[#F5A623]/50 shrink-0" />
-              All pricing confirmed before we start. No surprise bills.
+              Every job — emergency or not — is a fixed price agreed upfront. Residential homes only, Sunshine Coast wide.
             </p>
           </Reveal>
         </section>

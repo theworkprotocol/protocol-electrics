@@ -389,9 +389,9 @@ export default function ContactPage() {
                 Response time
               </p>
               <p className="text-[#F0EDE8] text-sm leading-relaxed">
-                Confirmed quotes within{" "}
-                <span className="text-[#F5A623] font-semibold">24 hours</span>.
-                For urgent work, call directly.
+                Fixed-price quotes within{" "}
+                <span className="text-[#F5A623] font-semibold">24 hours</span> —
+                the quote is the invoice. For urgent work, call directly.
               </p>
             </div>
 

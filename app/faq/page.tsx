@@ -59,7 +59,7 @@ const faqData: FAQCategory[] = [
       },
       {
         q: "Can you do after-hours emergency callouts?",
-        a: "Yes. After-hours emergency work is charged at $180/hr (labour) plus a $150 callout fee. If you have a loss of power, a burning smell from your switchboard, or any situation that poses an immediate safety risk, call us directly — don't wait until business hours.",
+        a: "Yes. If you have a loss of power, a burning smell from your switchboard, or any situation that poses an immediate safety risk, call us directly — don't wait until business hours. We'll give you a fixed price over the phone before we head out, so you know exactly where you stand.",
       },
     ],
   },
@@ -105,11 +105,11 @@ const faqData: FAQCategory[] = [
     items: [
       {
         q: "How do you price jobs?",
-        a: "Labour is charged at $120/hr with materials supplied at cost — no markup on parts. For solar and larger electrical projects we provide a fixed-price quote after a site assessment or detailed discussion of your requirements. Quote turnaround is within 24 hours for residential work. There are no hidden fees: the price on the quote is the price on the invoice.",
+        a: "Every job is quoted as a fixed price — no hourly rates, no open-ended bills. We assess your job (using your description, photos, or a site visit for larger work), then send a written fixed-price quote within 24 hours. The price on the quote is the price on the invoice. No hidden fees, no surprises when the job runs longer than expected — that risk is ours, not yours.",
       },
       {
         q: "What areas do you service?",
-        a: "We service the full Sunshine Coast — from Noosa and Noosaville in the north down to Caloundra in the south, including Buderim, Maroochydore, Mooloolaba, Sippy Downs, Coolum, and surrounds. For larger solar or commercial projects we'll travel further — contact us to discuss.",
+        a: "We service residential homes across the full Sunshine Coast — from Noosa and Noosaville in the north down to Caloundra in the south, including Buderim, Maroochydore, Mooloolaba, Sippy Downs, Coolum, and surrounds. For larger residential solar projects we'll travel further — contact us to discuss.",
       },
       {
         q: "How do I get a quote?",
