@@ -181,7 +181,7 @@ export default function HomePage() {
           <div className="flex items-end justify-between mb-12 gap-4">
             <SplitReveal
               lines={[{ text: "Built around" }, { text: "your project." }]}
-              className="text-4xl md:text-5xl font-bold text-[#F0EDE8] leading-tight max-w-sm"
+              className="text-4xl md:text-5xl font-black italic tracking-[-0.03em] text-[#F0EDE8] leading-tight max-w-sm"
             />
             <Reveal delay={120}>
               <Link href="/services" className="hidden md:flex items-center gap-2 text-sm text-[#6B6B6B] hover:text-[#F5A623] transition-colors">
@@ -234,7 +234,7 @@ export default function HomePage() {
             </Reveal>
             <SplitReveal
               lines={[{ text: "Simple from" }, { text: "start to finish." }]}
-              className="text-4xl md:text-5xl font-bold text-[#F0EDE8] leading-tight mb-16 max-w-sm"
+              className="text-4xl md:text-5xl font-black italic tracking-[-0.03em] text-[#F0EDE8] leading-tight mb-16 max-w-sm"
             />
 
             <PipelineFlow />
@@ -320,7 +320,7 @@ export default function HomePage() {
                 { text: "Ready to start", className: "text-[#F0EDE8]" },
                 { text: "your project?", className: "text-gradient" },
               ]}
-              className="text-5xl md:text-6xl font-bold mb-6 leading-tight"
+              className="text-5xl md:text-6xl font-black italic tracking-[-0.03em] mb-6 leading-tight"
             />
 
             <Reveal delay={140}>
