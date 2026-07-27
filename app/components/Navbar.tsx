@@ -29,7 +29,7 @@ export default function Navbar() {
               <span className="absolute inset-0 rounded-full bg-[#F5A623] group-hover:scale-150 transition-transform duration-300" />
               <span className="absolute inset-0 rounded-full bg-[#F5A623] animate-ping opacity-30" />
             </div>
-            <span className="text-sm font-semibold tracking-[0.15em] uppercase text-[#F0EDE8]">
+            <span className="text-lg font-black tracking-[-0.03em] text-[#F0EDE8]">
               Protocol <span className="text-[#F5A623]">Electrics</span>
             </span>
           </Link>
@@ -40,7 +40,7 @@ export default function Navbar() {
               <Link
                 key={l.href}
                 href={l.href}
-                className={`text-sm tracking-wide transition-colors relative group ${
+                className={`font-mono text-xs uppercase tracking-widest transition-colors relative group ${
                   pathname === l.href ? "text-[#F0EDE8]" : "text-[#6B6B6B] hover:text-[#F0EDE8]"
                 }`}
               >
@@ -81,7 +81,7 @@ export default function Navbar() {
               key={l.href}
               href={l.href}
               onClick={() => setOpen(false)}
-              className={`text-sm tracking-wide transition-colors ${
+              className={`font-mono text-xs uppercase tracking-widest transition-colors ${
                 pathname === l.href ? "text-[#F5A623]" : "text-[#6B6B6B] hover:text-[#F0EDE8]"
               }`}
             >
