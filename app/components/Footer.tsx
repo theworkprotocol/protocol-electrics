@@ -78,12 +78,6 @@ export default function Footer() {
                   </Link>
                 </li>
               ))}
-              <li>
-                <Link href="/emergency" className="text-xs text-red-400/80 hover:text-red-400 transition-colors flex items-center gap-1.5">
-                  <span className="w-1 h-1 rounded-full bg-red-400 animate-pulse" />
-                  24/7 Emergency
-                </Link>
-              </li>
             </ul>
             <div className="mt-6 space-y-2">
               <a href="tel:0428653509" className="flex items-center gap-2 text-xs text-[#6B6B6B] hover:text-[#F5A623] transition-colors">

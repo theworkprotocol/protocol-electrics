@@ -51,13 +51,6 @@ export default function Navbar() {
               </Link>
             ))}
             <Link
-              href="/emergency"
-              className="flex items-center gap-1.5 text-xs font-semibold tracking-wide text-red-400/80 hover:text-red-400 transition-colors"
-            >
-              <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
-              24/7
-            </Link>
-            <Link
               href="/book"
               className="btn-glow relative text-sm font-semibold px-5 py-2 bg-[#F5A623] text-[#0A0A0A] hover:bg-[#FFD580] transition-colors rounded-sm tracking-wide z-0"
             >
@@ -95,14 +88,6 @@ export default function Navbar() {
               {l.label}
             </Link>
           ))}
-          <Link
-            href="/emergency"
-            onClick={() => setOpen(false)}
-            className="flex items-center gap-2 text-sm tracking-wide text-red-400/80"
-          >
-            <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
-            24/7 Emergency
-          </Link>
           <Link
             href="/book"
             onClick={() => setOpen(false)}
