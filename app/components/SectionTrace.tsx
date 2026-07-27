@@ -21,7 +21,7 @@ export default function SectionTrace({ className = "" }: { className?: string })
       {/* Flowing current */}
       <path
         d="M 2,14 H 150 L 168,4 H 260 L 278,14 H 418"
-        stroke="rgba(245,166,35,0.5)"
+        stroke="rgba(245,166,35,0.32)"
         strokeWidth="1.5"
         className="circuit-path"
       />

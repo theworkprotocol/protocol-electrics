@@ -220,8 +220,11 @@ export default function ParticleField() {
 
           // Occasional brighter "live" particle; dust near the track glows
           const bright = ((c * 31 + r * 17) % 23) === 0;
+          const blueLive = ((c * 7 + r * 29) % 31) === 0;
           const nearTrack = Math.abs(x - trackXc) < 58;
-          ctx.fillStyle = bright
+          ctx.fillStyle = blueLive
+            ? `rgba(96, 200, 250, ${Math.min(1, alpha * 1.6)})`
+            : bright
             ? `rgba(255, 213, 128, ${Math.min(1, alpha * 1.8)})`
             : nearTrack
             ? `rgba(255, 220, 150, ${Math.min(1, alpha * 2.1)})`
@@ -260,7 +263,7 @@ export default function ParticleField() {
           const size = Math.min(2.2, Math.max(0.6, 1.1 * persp));
           ctx.fillStyle =
             k === 0
-              ? `rgba(255, 240, 200, ${Math.min(1, alpha * 1.2)})`
+              ? `rgba(165, 220, 252, ${Math.min(1, alpha * 1.25)})`
               : `rgba(255, 214, 128, ${alpha})`;
           ctx.fillRect(sx - size / 2, sy - size / 2, size, size);
         }
@@ -296,8 +299,8 @@ export default function ParticleField() {
         const alpha = (0.08 + 0.26 * tw) * s.depth;
         const size = 0.6 + s.depth * 0.9;
         ctx.fillStyle =
-          i % 12 === 0
-            ? `rgba(125, 211, 252, ${alpha * 1.7})`
+          i % 6 === 0
+            ? `rgba(125, 211, 252, ${alpha * 1.9})`
             : i % 17 === 0
             ? `rgba(255, 213, 128, ${alpha * 1.6})`
             : `rgba(245, 166, 35, ${alpha})`;
@@ -366,7 +369,7 @@ export default function ParticleField() {
         const size = 0.9 + strength * 1.1;
 
         ctx.fillStyle =
-          i % 23 === 0 && strength > 0.5
+          i % 11 === 0 && strength > 0.5
             ? `rgba(125, 211, 252, ${Math.min(1, alpha * 1.6)})`
             : i % 19 === 0
             ? `rgba(255, 213, 128, ${Math.min(1, alpha * 1.5)})`

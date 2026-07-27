@@ -77,7 +77,7 @@ export default function HomePage() {
 
           {/* Circuit trace — animated current flowing through the board */}
           <svg
-            className="absolute right-[-60px] top-1/2 -translate-y-1/2 w-[560px] h-[560px] pointer-events-none hidden lg:block opacity-70"
+            className="absolute right-[-60px] top-1/2 -translate-y-1/2 w-[560px] h-[560px] pointer-events-none hidden lg:block opacity-50"
             viewBox="0 0 560 560"
             fill="none"
             aria-hidden="true"
