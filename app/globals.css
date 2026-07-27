@@ -321,8 +321,8 @@ h1, h2, h3 {
 
 /* ─── Soft glow on bone-white text ─── */
 .text-\[\#F0EDE8\] {
-  text-shadow: 0 0 16px rgba(240, 237, 232, 0.22);
+  text-shadow: 0 0 20px rgba(240, 237, 232, 0.34);
 }
 h1, h2, h3 {
-  text-shadow: 0 0 22px rgba(240, 237, 232, 0.3), 0 0 64px rgba(245, 166, 35, 0.12);
+  text-shadow: 0 0 26px rgba(240, 237, 232, 0.45), 0 0 72px rgba(245, 166, 35, 0.2);
 }

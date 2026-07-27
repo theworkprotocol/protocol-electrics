@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { usePathname } from "next/navigation";
 
 /**
  * Full-page particle energy field — WebGL edition.
@@ -218,6 +219,9 @@ void main() {
 
 export default function ParticleField() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const pathname = usePathname();
+  const pathRef = useRef(pathname);
+  pathRef.current = pathname;
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -452,7 +456,9 @@ export default function ParticleField() {
       const progress = scrollOffset / docH;
       let active = -1,
         strength = 0;
-      for (let k = 0; k < shapes.length && k < anchors.length; k++) {
+      // Symbols form on the homepage only; elsewhere the field just flows
+      const symbolsEnabled = pathRef.current === "/";
+      for (let k = 0; symbolsEnabled && k < shapes.length && k < anchors.length; k++) {
         const d = Math.abs(progress - anchors[k]);
         const s = smoothstep(1 - Math.max(0, d - 0.06) / INFLUENCE);
         if (s > strength) {
