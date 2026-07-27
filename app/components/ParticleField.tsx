@@ -21,7 +21,7 @@ import { useEffect, useRef } from "react";
 const VERT = `
 precision highp float;
 attribute vec4 aData;
-uniform float uW, uH, uTime, uCamZ, uScrollPar, uStrength, uIsMorph, uDpr;
+uniform float uW, uH, uTime, uCamZ, uScrollPar, uStrength, uIsMorph, uDpr, uDomeAlpha;
 uniform float uDepth, uHalfSpan;
 varying vec4 vColor;
 
@@ -87,7 +87,7 @@ void main() {
     if (pxy.x < -10.0 || pxy.x > uW + 10.0 || pxy.y < -10.0 || pxy.y > uH + 10.0) { hide(); return; }
 
     float tw = 0.55 + 0.45 * sin(uTime * 1.8 + x * 0.35 + worldZ * 0.21);
-    float alpha = fade * fade * tw * 0.5;
+    float alpha = fade * fade * tw * 0.62;
     float isBlue = step(hash(c * 3.7 + r * 5.3), 0.4);
     float bright = step(0.956, hash(c * 31.3 + r * 17.7));
     float nearTrack = 1.0 - step(58.0, abs(x - trackX(worldZ)));
@@ -95,6 +95,12 @@ void main() {
     vec3 col = mix(mix(GOLD, BLUE * 1.15, isBlue), GOLD_WARM, nearTrack * (1.0 - isBlue));
     col = mix(col, mix(GOLD_BRIGHT, BLUE_BRIGHT, isBlue), bright);
     alpha *= 1.0 + bright * 0.8 + nearTrack * 0.9;
+
+    // Elevation shading — valleys fall dark, ridge crests catch the light
+    float elev = clamp((y - CAMH) / 456.0 + 0.5, 0.0, 1.0);
+    col *= 0.55 + elev * 0.75;
+    alpha *= 0.6 + elev * 0.75;
+    col = mix(col, GOLD_BRIGHT, step(0.86, elev) * 0.3 * (1.0 - isBlue));
 
     // Static-discharge flash: a particle briefly goes white-hot
     float flash = step(0.9985, hash(c * 13.7 + r * 7.3 + floor(uTime * 6.0)));
@@ -107,7 +113,7 @@ void main() {
   }
 
   if (mode < 1.5) {
-    // ── Track ribbon ── aData = [1, along, k, seed]
+    // ── Road: racing-curb edges + particle fill ── aData = [1, along, k, seed]
     float along = aData.y;
     float k = aData.z;
     float wz = uCamZ + along;
@@ -115,15 +121,22 @@ void main() {
     float persp = FOCAL / z;
     float fade = max(0.0, 1.0 - z / uDepth);
     if (fade < 0.03) { hide(); return; }
-    float off = (hash(wz * 0.37 + k * 12.9898) - 0.5) * 64.0;
+    float isEdge = 1.0 - step(1.5, k); // k 0,1 = kerb rows
+    float off;
+    if (k < 0.5) off = -30.0;
+    else if (k < 1.5) off = 30.0;
+    else off = (hash(wz * 0.37 + k * 12.9898) - 0.5) * 46.0;
     float px = trackX(wz) + off;
     float py = CAMH + wave(px, wz) + 4.0;
     vec2 pxy = vec2(uW * 0.5 + px * persp, uH * 0.42 - py * persp);
     if (pxy.x < -10.0 || pxy.x > uW + 10.0 || pxy.y < -10.0 || pxy.y > uH + 10.0) { hide(); return; }
     float tw = 0.5 + 0.5 * sin(uTime * 2.4 + wz * 0.05 + k * 1.7);
-    float alpha = fade * (0.2 + 0.35 * tw);
-    vec3 col = k < 0.5 ? BLUE_WHITE * 0.85 : GOLD_WARM;
-    float size = clamp(persp * 1.1, 0.6, 2.2) * 2.2;
+    // Alternating kerb stripes: blue-white / bright gold
+    float stripe = step(0.5, fract(wz * 0.016));
+    vec3 edgeCol = mix(BLUE_WHITE, GOLD_BRIGHT, stripe);
+    vec3 col = mix(GOLD_WARM * 0.85, edgeCol, isEdge);
+    float alpha = fade * mix(0.2 + 0.28 * tw, 0.42 + 0.3 * tw, isEdge);
+    float size = clamp(persp * 1.1, 0.6, 2.2) * mix(2.0, 2.6, isEdge);
     emit(pxy, size, col, alpha);
     return;
   }
@@ -146,6 +159,24 @@ void main() {
 
   if (mode < 3.5) {
     // ── Starfield ── handled below
+  } else if (mode > 4.5) {
+    // ── Horizon dome: slowly rotating particle sphere ── aData = [5, i, N, seed]
+    float fi = aData.y;
+    float N = aData.z;
+    float phi = acos(1.0 - 2.0 * (fi + 0.5) / N);
+    float theta = 2.399963 * fi + uTime * 0.16;
+    vec3 dir = vec3(sin(phi) * cos(theta), cos(phi), sin(phi) * sin(theta));
+    float R = min(uW, uH) * 0.30;
+    vec2 pxy = vec2(uW * 0.33 + dir.x * R, uH * 0.40 - dir.y * R * 0.94);
+    float tw = 0.5 + 0.5 * sin(uTime * 1.6 + fi * 0.7);
+    float front = smoothstep(-0.2, 0.6, dir.z);
+    float rim = 1.0 - abs(dir.z);
+    float alpha = uDomeAlpha * ((0.05 + 0.11 * tw) * (0.35 + 0.65 * front) + rim * 0.05);
+    float isBlue = step(hash(fi * 3.3), 0.45);
+    vec3 col = mix(GOLD, BLUE_BRIGHT, isBlue);
+    float size = (1.1 + front * 1.1) * 2.0;
+    emit(pxy, size, col, alpha);
+    return;
   } else {
     // ── Foreground bokeh ── aData = [4, x0, y0, seed]
     float seed = aData.w;
@@ -246,7 +277,7 @@ export default function ParticleField() {
     const U = (n: string) => gl!.getUniformLocation(prog, n);
     const uW = U("uW"), uH = U("uH"), uTime = U("uTime"), uCamZ = U("uCamZ");
     const uScrollPar = U("uScrollPar"), uStrength = U("uStrength"), uIsMorph = U("uIsMorph");
-    const uDpr = U("uDpr"), uDepth = U("uDepth"), uHalfSpan = U("uHalfSpan");
+    const uDpr = U("uDpr"), uDepth = U("uDepth"), uHalfSpan = U("uHalfSpan"), uDomeAlpha = U("uDomeAlpha");
 
     gl.uniform1f(uDepth, DEPTH);
     gl.uniform1f(uHalfSpan, HALF_SPAN);
@@ -267,6 +298,8 @@ export default function ParticleField() {
     const BOKEH_N = isMobile ? 10 : 20;
     for (let i = 0; i < BOKEH_N; i++)
       field.push(4, Math.random(), Math.random(), Math.random());
+    const DOME_N = isMobile ? 550 : 1100;
+    for (let i = 0; i < DOME_N; i++) field.push(5, i, DOME_N, Math.random());
     const fieldArr = new Float32Array(field);
     const FIELD_COUNT = fieldArr.length / 4;
 
@@ -417,14 +450,7 @@ export default function ParticleField() {
       gl.uniform1f(uCamZ, t * 26 + scrollOffset * 0.55);
       gl.uniform1f(uScrollPar, scrollOffset);
 
-      // Static field
-      gl.uniform1f(uIsMorph, 0);
-      gl.bindBuffer(gl.ARRAY_BUFFER, fieldBuf);
-      gl.enableVertexAttribArray(aData);
-      gl.vertexAttribPointer(aData, 4, gl.FLOAT, false, 0, 0);
-      gl.drawArrays(gl.POINTS, 0, FIELD_COUNT);
-
-      // Morph layer — CPU spring physics, streamed to the GPU
+      // Formation strength (also dims the dome while a symbol is assembled)
       const docH = Math.max(1, document.documentElement.scrollHeight - height);
       const progress = scrollOffset / docH;
       let active = -1,
@@ -437,6 +463,16 @@ export default function ParticleField() {
           active = k;
         }
       }
+      gl.uniform1f(uDomeAlpha, 1 - Math.min(1, strength * 1.4));
+
+      // Static field
+      gl.uniform1f(uIsMorph, 0);
+      gl.bindBuffer(gl.ARRAY_BUFFER, fieldBuf);
+      gl.enableVertexAttribArray(aData);
+      gl.vertexAttribPointer(aData, 4, gl.FLOAT, false, 0, 0);
+      gl.drawArrays(gl.POINTS, 0, FIELD_COUNT);
+
+      // Morph layer — CPU spring physics, streamed to the GPU
       const cx = width * (isMobile ? 0.5 : 0.68);
       const cy = height * (isMobile ? 0.38 : 0.32);
       const scale = Math.min(width * 0.58, height * 0.56);
