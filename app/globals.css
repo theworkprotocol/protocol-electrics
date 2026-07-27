@@ -326,3 +326,9 @@ h1, h2, h3 {
 h1, h2, h3 {
   text-shadow: 0 0 26px rgba(240, 237, 232, 0.45), 0 0 72px rgba(245, 166, 35, 0.2);
 }
+
+/* Gradient text: no white text-shadow (it pools into a box behind
+   transparent-fill glyphs) — the drop-shadow filter supplies its glow */
+.text-gradient {
+  text-shadow: none;
+}
