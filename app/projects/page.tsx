@@ -7,13 +7,13 @@ import { Reveal } from "../components/Reveal";
 import { StatCounterCompact } from "../components/StatCounter";
 
 export const metadata: Metadata = {
-  title: "Projects",
+  title: "What We Can Do",
   description:
-    "Recent electrical, solar, EV charger, and air conditioning projects across the Sunshine Coast. Solar installs in Buderim, switchboard upgrades in Maroochydore, EV chargers in Noosa, and more.",
+    "Example scopes of residential electrical, solar, EV charger, and air conditioning work on the Sunshine Coast — what's included and the standard it's done to.",
   openGraph: {
-    title: "Projects | Protocol Electrics",
+    title: "What We Can Do | Protocol Electrics",
     description:
-      "Recent electrical, solar, EV charger, and air conditioning projects across the Sunshine Coast. Solar installs in Buderim, switchboard upgrades in Maroochydore, EV chargers in Noosa, and more.",
+      "Example scopes of residential electrical, solar, EV charger, and air conditioning work on the Sunshine Coast — what's included and the standard it's done to.",
     url: "https://www.protocolelectrics.com.au/projects",
   },
 };
@@ -21,61 +21,61 @@ export const metadata: Metadata = {
 const projects = [
   {
     title: "10kW Solar + Powerwall 3",
-    location: "Buderim, QLD",
+    scope: "Typical scope · 1–2 day install",
     category: "Solar & Battery",
     description:
-      "Full roof survey, 10kW SolarEdge system with optimisers on a north-west split roof, paired with a Tesla Powerwall 3. Energex DNSP approval handled end-to-end. Client hit self-sufficiency over 85% in the first month.",
-    specs: ["10kW SolarEdge inverter", "25 × 400W panels", "Powerwall 3 (13.5kWh)", "Battery backup circuit", "Monitoring app commissioned"],
+      "Full roof survey, an optimised 10kW system designed around your roof orientation, paired with a Tesla Powerwall 3. Energex DNSP approval handled end-to-end, monitoring commissioned before handover.",
+    specs: ["10kW SolarEdge inverter", "Panels matched to your usage", "Powerwall 3 (13.5kWh)", "Battery backup circuit", "Monitoring app commissioned"],
     tag: "Solar & Battery",
     icon: "☀️",
   },
   {
     title: "Switchboard Upgrade + Safety Switches",
-    location: "Maroochydore, QLD",
+    scope: "Typical scope · half to full day",
     category: "Electrical Contracting",
     description:
-      "Ageing rewirable fuse board replaced with a modern Clipsal switchboard. Four circuits upgraded with Type 1 RCDs, smoke alarms brought to QLD compliance. Signed off with a Form 4 Certificate of Test same day.",
-    specs: ["Clipsal switchboard", "Type 1 RCD protection", "Smoke alarm compliance", "Form 4 same-day sign-off", "All circuits labelled & tested"],
+      "Ageing rewirable fuse boards replaced with a modern Clipsal switchboard. Circuits upgraded with RCD protection and smoke alarms brought to QLD compliance — signed off with a Form 4 Certificate of Test.",
+    specs: ["Clipsal switchboard", "Type 1 RCD protection", "Smoke alarm compliance", "Form 4 sign-off", "All circuits labelled & tested"],
     tag: "Electrical",
     icon: "⚡",
   },
   {
     title: "Dual EV Charger Install",
-    location: "Noosa Heads, QLD",
+    scope: "Typical scope · 1 day install",
     category: "EV Charging",
     description:
-      "Two Tesla Wall Connectors installed in a double garage with a dedicated 3-phase sub-board. Clean cable routing through the wall cavity, no visible conduit runs. Load management configured to share capacity during peak household demand.",
-    specs: ["2 × Tesla Wall Connector", "Dedicated 3-phase sub-board", "Concealed cable routing", "Load management enabled", "AS 61851 compliant"],
+      "One or two wall connectors installed with a dedicated sub-board where needed. Clean cable routing through the wall cavity — no visible conduit runs — and load management configured for peak household demand.",
+    specs: ["Tesla Wall Connector / Zappi", "Dedicated 3-phase sub-board", "Concealed cable routing", "Load management enabled", "AS 61851 compliant"],
     tag: "EV Charging",
     icon: "🔌",
   },
   {
     title: "Ducted AC — New Build",
-    location: "Sippy Downs, QLD",
+    scope: "Typical scope · new build or major reno",
     category: "Air Conditioning",
     description:
-      "Daikin ducted system supplied and installed across a newly built 4-bedroom home. All electrical supply work, commissioning, and handover included. System zoned per room with a smart controller.",
+      "Ducted systems supplied and installed for new builds and major renovations. All electrical supply work, commissioning, and handover included, with per-room zoning on a smart controller.",
     specs: ["Daikin 14kW ducted", "4 zones with smart control", "Full electrical supply", "Commissioning & handover", "ARCtick certified install"],
     tag: "Air Conditioning",
     icon: "❄️",
   },
   {
     title: "6.6kW Solar Retrofit",
-    location: "Coolum Beach, QLD",
+    scope: "Typical scope · fast turnaround",
     category: "Solar & Battery",
     description:
-      "Replacement of a failed 10-year-old inverter with a modern Fronius Primo. Array re-tested, STC claim reprocessed, monitoring restored. Client back generating inside 48 hours of contact.",
-    specs: ["Fronius Primo 6.0 inverter", "Existing 24-panel array reused", "AS/NZS 5033 compliance check", "STC documentation handled", "48-hour turnaround"],
+      "Failed or ageing inverters replaced with modern equivalents. Existing arrays re-tested for compliance, STC documentation handled, and monitoring restored so you're back generating fast.",
+    specs: ["Fronius Primo 6.0 inverter", "Existing 24-panel array reused", "AS/NZS 5033 compliance check", "STC documentation handled", "Fast turnaround"],
     tag: "Solar & Battery",
     icon: "☀️",
   },
   {
     title: "Rental Property — Full Maintenance",
-    location: "Mooloolaba, QLD",
+    scope: "Typical scope · scheduled annually",
     category: "Maintenance",
     description:
-      "Annual electrical inspection for a property manager across three Mooloolaba units. Safety switch testing, smoke alarm compliance, and two fault-finds resolved. Inspection reports provided for landlord records.",
-    specs: ["3-unit inspection", "Safety switch testing", "Smoke alarm compliance", "Fault-finding × 2", "Written inspection report"],
+      "Annual electrical inspections for homeowners, landlords, and property managers. Safety switch testing, smoke alarm compliance, and fault-finding — with written reports for your records.",
+    specs: ["Whole-home inspection", "Safety switch testing", "Smoke alarm compliance", "Fault-finding included", "Written inspection report"],
     tag: "Maintenance",
     icon: "🔧",
   },
@@ -105,16 +105,16 @@ export default function ProjectsPage() {
             <div className="inline-flex items-center gap-2 badge-shimmer rounded-full px-4 py-1.5 mb-6">
               <span className="w-1.5 h-1.5 rounded-full bg-[#F5A623] animate-pulse" />
               <span className="text-xs font-medium tracking-widest uppercase text-[#F5A623]">
-                Recent Projects
+                What We Can Do
               </span>
             </div>
             <h1 className="text-4xl md:text-6xl font-bold leading-tight max-w-2xl mb-4">
-              <span className="text-[#F0EDE8]">Work that</span>
+              <span className="text-[#F0EDE8]">The standard</span>
               <br />
-              <span className="text-gradient">speaks for itself.</span>
+              <span className="text-gradient">we build to.</span>
             </h1>
             <p className="text-[#6B6B6B] text-lg max-w-xl">
-              A selection of recent installs across the Sunshine Coast. Every job here was done to spec, on time, and signed off properly.
+              Example scopes of the residential work we specialise in — what's included, how it's done, and the standard you can expect. Every job quoted as a fixed price.
             </p>
             <SectionTrace className="mt-8" />
           </div>
@@ -142,7 +142,7 @@ export default function ProjectsPage() {
                 </h2>
                 <p className="text-xs text-[#F5A623]/70 tracking-wide mb-4 flex items-center gap-1.5">
                   <span className="inline-block w-3 h-px bg-[#F5A623]/40" />
-                  {p.location}
+                  {p.scope}
                 </p>
 
                 {/* Description */}
@@ -169,10 +169,10 @@ export default function ProjectsPage() {
           <div className="relative max-w-7xl mx-auto px-6">
             <div className="grid grid-cols-2 md:grid-cols-4 divide-x divide-y md:divide-y-0 divide-white/5">
               {[
-                { value: "100", suffix: "+", label: "Jobs Completed" },
                 { value: "10", suffix: "", label: "Years Experience" },
                 { value: "24", suffix: "hr", label: "Quote Turnaround" },
-                { value: "0", suffix: "", label: "Callbacks" },
+                { value: "100", suffix: "%", label: "Fixed-Price Quotes" },
+                { value: "100", suffix: "%", label: "Residential Focus" },
               ].map((s) => (
                 <StatCounterCompact key={s.label} value={s.value} suffix={s.suffix} label={s.label} />
               ))}
@@ -186,10 +186,10 @@ export default function ProjectsPage() {
           <div className="relative max-w-7xl mx-auto px-6 py-20 flex flex-col md:flex-row items-center justify-between gap-8">
             <div>
               <h2 className="text-3xl font-bold text-[#F0EDE8] mb-3">
-                Want your project on this list?
+                Want work like this at your place?
               </h2>
               <p className="text-[#6B6B6B] text-sm max-w-md">
-                Get an instant estimate on your job and we&apos;ll have a confirmed quote back to you within 24 hours.
+                Get an instant estimate on your job and we&apos;ll have a fixed-price quote back to you within 24 hours.
               </p>
             </div>
             <Link
