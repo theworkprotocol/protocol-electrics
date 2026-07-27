@@ -1,11 +1,8 @@
 import { Reveal } from "./Reveal";
 
 const brands = [
-  { name: "Tesla", note: "Powerwall / EV" },
-  { name: "SolarEdge", note: "Solar Inverters" },
-  { name: "Fronius", note: "Solar Inverters" },
+  { name: "Tesla", note: "EV Charging" },
   { name: "Daikin", note: "Air Conditioning" },
-  { name: "Enphase", note: "Microinverters" },
   { name: "Clipsal", note: "Switchboards" },
   { name: "Zappi", note: "EV Charging" },
 ];

@@ -8,11 +8,11 @@ import { Reveal } from "../components/Reveal";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "Ten years in the trade. QBCC licensed, CEC accredited, ARCtick certified. Protocol Electrics is a small, focused electrical contracting business on the Sunshine Coast built on doing every job properly.",
+    "Ten years in the trade. QBCC licensed, ARCtick certified. Protocol Electrics is a small, focused electrical contracting business on the Sunshine Coast built on doing every job properly.",
   openGraph: {
     title: "About | Protocol Electrics",
     description:
-      "Ten years in the trade. QBCC licensed, CEC accredited, ARCtick certified. Protocol Electrics is a small, focused electrical contracting business on the Sunshine Coast built on doing every job properly.",
+      "Ten years in the trade. QBCC licensed, ARCtick certified. Protocol Electrics is a small, focused electrical contracting business on the Sunshine Coast built on doing every job properly.",
     url: "https://www.protocolelectrics.com.au/about",
   },
 };
@@ -20,7 +20,6 @@ export const metadata: Metadata = {
 const credentials = [
   { label: "Experience", value: "10 Years in the Trade" },
   { label: "Licence", value: "QBCC Licensed Electrical Contractor" },
-  { label: "Solar", value: "CEC Accredited Solar Installer" },
   { label: "AC & Refrigeration", value: "ARCtick Licensed" },
   { label: "Location", value: "Sunshine Coast, QLD" },
 ];
@@ -34,7 +33,7 @@ const values = [
   {
     title: "Specialists, not generalists.",
     description:
-      "A decade of hands-on experience focused on the work that matters most: solar, air conditioning, and maintenance. Deep knowledge beats broad averages every time.",
+      "A decade of hands-on experience focused on the work that matters most: electrical, air conditioning, and maintenance. Deep knowledge beats broad averages every time.",
   },
   {
     title: "Done right or not done.",
@@ -87,7 +86,7 @@ export default function AboutPage() {
               After ten years working in the trade, the pattern was obvious — most electrical businesses either grew too fast and lost quality, or stayed small but didn&apos;t take their work seriously enough.
             </p>
             <p className="text-[#6B6B6B] leading-relaxed">
-              Protocol Electrics was started to prove there&apos;s a third way. A tight, focused operation that specialises in the work that genuinely improves people&apos;s lives — solar, climate control, and reliable maintenance — and does every single job to a standard the client can depend on for years.
+              Protocol Electrics was started to prove there&apos;s a third way. A tight, focused operation that specialises in the work that genuinely improves people&apos;s lives — power, climate control, and reliable maintenance — and does every single job to a standard the client can depend on for years.
             </p>
             <p className="text-[#6B6B6B] leading-relaxed">
               No army of subcontractors. No sales targets. Just skilled work, done right.
@@ -133,7 +132,7 @@ export default function AboutPage() {
             <div className="grid sm:grid-cols-3 gap-px bg-white/5">
               {[
                 { label: "On the tools", hint: "Portrait / at work" },
-                { label: "Recent install", hint: "Finished switchboard or solar" },
+                { label: "Recent install", hint: "Finished switchboard or EV charger" },
                 { label: "Clean finishes", hint: "Detail shot of your best work" },
               ].map((p, i) => (
                 <Reveal key={p.label} delay={i * 90}>
@@ -194,7 +193,7 @@ export default function AboutPage() {
 
           <div className="grid sm:grid-cols-3 gap-px bg-white/5">
             {[
-              { icon: "☀️", title: "Solar & Battery", sub: "PV systems designed to last and perform on the Sunshine Coast" },
+              { icon: "🔌", title: "EV Charging", sub: "Dedicated charging circuits installed cleanly, AS 61851 compliant" },
               { icon: "❄️", title: "Air Conditioning", sub: "Installation done cleanly, commissioned properly, ARCtick certified" },
               { icon: "🔧", title: "Maintenance", sub: "Reliable, responsive, no-nonsense fault-finding and upkeep" },
             ].map((s) => (

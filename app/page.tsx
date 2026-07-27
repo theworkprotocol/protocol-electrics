@@ -14,11 +14,11 @@ import HeroTitle from "./components/HeroTitle";
 export const metadata: Metadata = {
   title: "Protocol Electrics | Sunshine Coast Electrician",
   description:
-    "Premium residential electrical contracting on the Sunshine Coast, QLD. Electrical, solar, EV charger installation, and air conditioning. QBCC licensed. 10 years experience.",
+    "Premium residential electrical contracting on the Sunshine Coast, QLD. Electrical, EV charger installation, and air conditioning. QBCC licensed. 10 years experience.",
   openGraph: {
     title: "Protocol Electrics | Sunshine Coast Electrician",
     description:
-      "Premium residential electrical contracting on the Sunshine Coast, QLD. Electrical, solar, EV charger installation, and air conditioning. QBCC licensed. 10 years experience.",
+      "Premium residential electrical contracting on the Sunshine Coast, QLD. Electrical, EV charger installation, and air conditioning. QBCC licensed. 10 years experience.",
     url: "https://www.protocolelectrics.com.au",
   },
 };
@@ -29,12 +29,6 @@ const services = [
     description: "Full-scope residential electrical — from new builds to rewires. Wired right, certified, first time.",
     icon: "⚡",
     tag: "Core Service",
-  },
-  {
-    title: "Solar Installation",
-    description: "CEC-accredited solar PV and battery systems, engineered for Sunshine Coast conditions.",
-    icon: "☀️",
-    tag: "High Demand",
   },
   {
     title: "EV Charger Installation",
@@ -119,7 +113,7 @@ export default function HomePage() {
               <HeroTitle />
 
               <p className="animate-fade-in-up delay-200 text-lg md:text-xl text-[#6B6B6B] leading-relaxed max-w-xl mb-10">
-                High-end electrical contracting, solar, and EV installs for Sunshine Coast homeowners who won&apos;t settle for second best. Describe your job — even upload a photo — and get an AI-powered estimate on the spot.
+                High-end electrical contracting, EV charging, and air conditioning for Sunshine Coast homeowners who won&apos;t settle for second best. Describe your job — even upload a photo — and get an AI-powered estimate on the spot.
               </p>
 
               <div className="animate-fade-in-up delay-300 flex flex-col sm:flex-row sm:items-center gap-4">

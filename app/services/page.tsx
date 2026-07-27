@@ -9,11 +9,11 @@ import BrandStrip from "../components/BrandStrip";
 export const metadata: Metadata = {
   title: "Electrical Services",
   description:
-    "Electrical contracting, solar installation, EV charger installation, air conditioning, and maintenance on the Sunshine Coast. QBCC licensed, CEC accredited, ARCtick certified.",
+    "Electrical contracting, EV charger installation, air conditioning, and maintenance on the Sunshine Coast. QBCC licensed, ARCtick certified.",
   openGraph: {
     title: "Electrical Services | Protocol Electrics",
     description:
-      "Electrical contracting, solar installation, EV charger installation, air conditioning, and maintenance on the Sunshine Coast. QBCC licensed, CEC accredited, ARCtick certified.",
+      "Electrical contracting, EV charger installation, air conditioning, and maintenance on the Sunshine Coast. QBCC licensed, ARCtick certified.",
     url: "https://www.protocolelectrics.com.au/services",
   },
 };
@@ -33,21 +33,6 @@ const services = [
     ],
     icon: "⚡",
     tag: "Core Service",
-  },
-  {
-    title: "Solar Installation",
-    description:
-      "CEC-accredited solar PV and battery systems engineered for Sunshine Coast conditions. We design for long-term performance, not just the lowest panel count.",
-    detail: [
-      "Residential solar PV systems",
-      "Battery storage (Powerwall, BYD, etc.)",
-      "Inverter upgrades & replacements",
-      "System performance checks",
-      "DNSP (Energex) applications handled",
-      "STC rebate processing",
-    ],
-    icon: "☀️",
-    tag: "High Demand",
   },
   {
     title: "EV Charger Installation",

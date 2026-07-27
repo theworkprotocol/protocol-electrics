@@ -12,7 +12,7 @@ const suburbs = [
     description: "Servicing Noosa Heads, Noosaville, Tewantin, and surrounds.",
     headline: "Electrician in Noosa",
     services: [
-      { icon: "☀️", label: "Solar & battery storage" },
+      { icon: "💡", label: "Lighting & power upgrades" },
       { icon: "🔌", label: "EV charger installation" },
       { icon: "⚡", label: "Switchboard upgrades" },
       { icon: "❄️", label: "Air conditioning" },
@@ -28,14 +28,14 @@ const suburbs = [
     description: "Servicing Buderim, Mountain Creek, Mooloolah Valley, and surrounds.",
     headline: "Electrician in Buderim",
     services: [
-      { icon: "☀️", label: "Solar installation & battery" },
+      { icon: "💡", label: "Lighting & power upgrades" },
       { icon: "⚡", label: "Switchboard upgrades" },
       { icon: "⚡", label: "Safety switch installation" },
       { icon: "❄️", label: "Air conditioning" },
       { icon: "🔌", label: "EV charger installation" },
     ],
     localNote:
-      "Buderim's north-facing rooftops make it one of the best areas on the Coast for solar. We've completed multiple installs in the area and know the local grid well.",
+      "Buderim's established homes often run older switchboards and wiring. We're regularly in the area for upgrades, EV chargers, and air conditioning, and know the local grid well.",
   },
   {
     slug: "maroochydore",
@@ -46,7 +46,7 @@ const suburbs = [
     services: [
       { icon: "⚡", label: "Electrical contracting" },
       { icon: "⚡", label: "Switchboard upgrades" },
-      { icon: "☀️", label: "Solar & battery" },
+      { icon: "💡", label: "Lighting & power upgrades" },
       { icon: "❄️", label: "Air conditioning" },
       { icon: "🔧", label: "Safety compliance" },
     ],
@@ -61,7 +61,7 @@ const suburbs = [
     headline: "Electrician in Mooloolaba",
     services: [
       { icon: "🔌", label: "EV charger installation" },
-      { icon: "☀️", label: "Solar & battery" },
+      { icon: "💡", label: "Lighting & power upgrades" },
       { icon: "❄️", label: "Air conditioning" },
       { icon: "🔧", label: "Rental property maintenance" },
       { icon: "🔧", label: "Fault finding" },
@@ -78,7 +78,7 @@ const suburbs = [
     services: [
       { icon: "⚡", label: "New build electrical" },
       { icon: "❄️", label: "Air conditioning" },
-      { icon: "☀️", label: "Solar & battery" },
+      { icon: "💡", label: "Lighting & power upgrades" },
       { icon: "🔌", label: "EV charger installation" },
       { icon: "⚡", label: "Switchboard upgrades" },
     ],
@@ -92,20 +92,19 @@ const suburbs = [
     description: "Servicing Coolum Beach, Peregian Beach, Yaroomba, and surrounds.",
     headline: "Electrician in Coolum Beach",
     services: [
-      { icon: "☀️", label: "Solar installation & battery" },
+      { icon: "💡", label: "Lighting & power upgrades" },
       { icon: "⚡", label: "Switchboard upgrades" },
       { icon: "❄️", label: "Air conditioning" },
       { icon: "🔌", label: "EV charger installation" },
       { icon: "⚡", label: "Safety switch installation" },
     ],
     localNote:
-      "Coolum's coastal homes often have older wiring that needs upgrading before solar can be installed. We assess everything before quoting and never recommend work that isn't needed.",
+      "Coolum's coastal homes often have older wiring that benefits from a proper safety assessment. We assess everything before quoting and never recommend work that isn't needed.",
   },
 ];
 
 const credentials = [
   { label: "Licence", value: "QBCC Licensed Contractor" },
-  { label: "Solar", value: "CEC Accredited Installer" },
   { label: "AC", value: "ARCtick Licensed" },
   { label: "Experience", value: "10 Years in the Trade" },
   { label: "Based", value: "Sunshine Coast, QLD" },
@@ -125,10 +124,10 @@ export async function generateMetadata({
   if (!suburb) return {};
   return {
     title: `Electrician ${suburb.name}`,
-    description: `Licensed electrician servicing ${suburb.region}. Solar, EV chargers, switchboards, air conditioning, and maintenance. Protocol Electrics — QBCC licensed, CEC accredited.`,
+    description: `Licensed electrician servicing ${suburb.region}. EV chargers, switchboards, air conditioning, and maintenance. Protocol Electrics — QBCC licensed.`,
     openGraph: {
       title: `Electrician ${suburb.name} | Protocol Electrics`,
-      description: `Licensed electrician servicing ${suburb.region}. Solar, EV chargers, switchboards, air conditioning, and maintenance.`,
+      description: `Licensed electrician servicing ${suburb.region}. EV chargers, switchboards, air conditioning, and maintenance.`,
       url: `https://www.protocolelectrics.com.au/locations/${suburb.slug}`,
     },
   };

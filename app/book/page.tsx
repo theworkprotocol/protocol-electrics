@@ -26,7 +26,6 @@ interface Prediction {
 
 const SERVICE_OPTIONS = [
   { label: "Electrical", icon: "⚡" },
-  { label: "Solar", icon: "☀️" },
   { label: "EV Charger", icon: "🔌" },
   { label: "Air Con", icon: "❄️" },
   { label: "Maintenance", icon: "🔧" },

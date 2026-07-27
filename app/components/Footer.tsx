@@ -18,12 +18,10 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-xs text-[#6B6B6B] leading-relaxed max-w-xs">
-              Premium residential electrical contracting on the Sunshine Coast. Solar, EV, AC, and maintenance — done to a standard worth recommending.
+              Premium residential electrical contracting on the Sunshine Coast. EV, AC, and maintenance — done to a standard worth recommending.
             </p>
             <div className="flex items-center gap-3 mt-6">
               <span className="text-xs text-[#6B6B6B]">QBCC Licensed</span>
-              <span className="w-px h-3 bg-white/10" />
-              <span className="text-xs text-[#6B6B6B]">CEC Accredited</span>
               <span className="w-px h-3 bg-white/10" />
               <span className="text-xs text-[#6B6B6B]">ARCtick</span>
             </div>
@@ -33,7 +31,7 @@ export default function Footer() {
           <div>
             <p className="text-xs font-semibold tracking-widest uppercase text-[#6B6B6B] mb-5">Services</p>
             <ul className="space-y-3">
-              {["Electrical Contracting", "Solar Installation", "EV Charger Installation", "Maintenance", "Air Conditioning"].map((s) => (
+              {["Electrical Contracting", "EV Charger Installation", "Maintenance", "Air Conditioning"].map((s) => (
                 <li key={s}>
                   <Link href="/services" className="text-xs text-[#6B6B6B] hover:text-[#F5A623] transition-colors">
                     {s}

@@ -8,7 +8,7 @@ import { Reveal } from "../components/Reveal";
 export const metadata: Metadata = {
   title: "Service Areas",
   description:
-    "Protocol Electrics services the full Sunshine Coast — from Noosa in the north to Caloundra in the south. Electrician, solar installer, EV charger, and air conditioning across all major suburbs.",
+    "Protocol Electrics services the full Sunshine Coast — from Noosa in the north to Caloundra in the south. Electrician, EV charger, and air conditioning across all major suburbs.",
   openGraph: {
     title: "Service Areas | Protocol Electrics",
     description:
@@ -19,7 +19,7 @@ export const metadata: Metadata = {
 
 const suburbs = [
   { slug: "noosa", name: "Noosa", region: "Noosa Heads & Noosaville", icon: "🌊" },
-  { slug: "buderim", name: "Buderim", region: "Buderim & Mountain Creek", icon: "☀️" },
+  { slug: "buderim", name: "Buderim", region: "Buderim & Mountain Creek", icon: "💡" },
   { slug: "maroochydore", name: "Maroochydore", region: "Maroochydore & Alexandra Headland", icon: "⚡" },
   { slug: "mooloolaba", name: "Mooloolaba", region: "Mooloolaba & Kawana", icon: "🔌" },
   { slug: "sippy-downs", name: "Sippy Downs", region: "Sippy Downs & Palmview", icon: "🏗️" },

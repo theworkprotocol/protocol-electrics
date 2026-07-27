@@ -31,18 +31,16 @@ export const metadata: Metadata = {
     template: "%s | Protocol Electrics",
   },
   description:
-    "Protocol Electrics is a QBCC licensed electrical contractor on the Sunshine Coast, QLD. Specialising in residential electrical, solar installation, EV charger installation, and air conditioning. 10 years experience. No shortcuts.",
+    "Protocol Electrics is a QBCC licensed electrical contractor on the Sunshine Coast, QLD. Specialising in residential electrical, EV charger installation, and air conditioning. 10 years experience. No shortcuts.",
   keywords: [
     "Sunshine Coast electrician",
     "electrician Sunshine Coast",
-    "solar installation Sunshine Coast",
     "EV charger installation Sunshine Coast",
     "air conditioning installation Sunshine Coast",
     "electrician Noosa",
     "electrician Buderim",
     "electrician Maroochydore",
     "QBCC electrician",
-    "CEC accredited solar installer",
     "residential electrician Queensland",
     "Protocol Electrics",
   ],
@@ -80,10 +78,9 @@ const jsonLd = {
   ],
   priceRange: "$$",
   description:
-    "QBCC licensed electrical contractor on the Sunshine Coast specialising in residential electrical, solar installation, EV charger installation, and air conditioning.",
+    "QBCC licensed electrical contractor on the Sunshine Coast specialising in residential electrical, EV charger installation, and air conditioning.",
   hasCredential: [
     "QBCC Licensed Electrical Contractor",
-    "CEC Accredited Solar Installer",
     "ARCtick Licensed",
   ],
 };

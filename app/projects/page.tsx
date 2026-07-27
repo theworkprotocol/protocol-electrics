@@ -9,26 +9,16 @@ import { StatCounterCompact } from "../components/StatCounter";
 export const metadata: Metadata = {
   title: "What We Can Do",
   description:
-    "Example scopes of residential electrical, solar, EV charger, and air conditioning work on the Sunshine Coast — what's included and the standard it's done to.",
+    "Example scopes of residential electrical, EV charger, and air conditioning work on the Sunshine Coast — what's included and the standard it's done to.",
   openGraph: {
     title: "What We Can Do | Protocol Electrics",
     description:
-      "Example scopes of residential electrical, solar, EV charger, and air conditioning work on the Sunshine Coast — what's included and the standard it's done to.",
+      "Example scopes of residential electrical, EV charger, and air conditioning work on the Sunshine Coast — what's included and the standard it's done to.",
     url: "https://www.protocolelectrics.com.au/projects",
   },
 };
 
 const projects = [
-  {
-    title: "10kW Solar + Powerwall 3",
-    scope: "Typical scope · 1–2 day install",
-    category: "Solar & Battery",
-    description:
-      "Full roof survey, an optimised 10kW system designed around your roof orientation, paired with a Tesla Powerwall 3. Energex DNSP approval handled end-to-end, monitoring commissioned before handover.",
-    specs: ["10kW SolarEdge inverter", "Panels matched to your usage", "Powerwall 3 (13.5kWh)", "Battery backup circuit", "Monitoring app commissioned"],
-    tag: "Solar & Battery",
-    icon: "☀️",
-  },
   {
     title: "Switchboard Upgrade + Safety Switches",
     scope: "Typical scope · half to full day",
@@ -60,16 +50,6 @@ const projects = [
     icon: "❄️",
   },
   {
-    title: "6.6kW Solar Retrofit",
-    scope: "Typical scope · fast turnaround",
-    category: "Solar & Battery",
-    description:
-      "Failed or ageing inverters replaced with modern equivalents. Existing arrays re-tested for compliance, STC documentation handled, and monitoring restored so you're back generating fast.",
-    specs: ["Fronius Primo 6.0 inverter", "Existing 24-panel array reused", "AS/NZS 5033 compliance check", "STC documentation handled", "Fast turnaround"],
-    tag: "Solar & Battery",
-    icon: "☀️",
-  },
-  {
     title: "Rental Property — Full Maintenance",
     scope: "Typical scope · scheduled annually",
     category: "Maintenance",
@@ -82,7 +62,6 @@ const projects = [
 ];
 
 const tagColours: Record<string, string> = {
-  "Solar & Battery": "text-amber-400 border-amber-400/20 bg-amber-400/5",
   "Electrical": "text-blue-400 border-blue-400/20 bg-blue-400/5",
   "EV Charging": "text-emerald-400 border-emerald-400/20 bg-emerald-400/5",
   "Air Conditioning": "text-sky-400 border-sky-400/20 bg-sky-400/5",

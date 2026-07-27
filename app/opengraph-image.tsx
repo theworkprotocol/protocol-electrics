@@ -67,7 +67,7 @@ export default function OpengraphImage() {
             display: "flex",
           }}
         >
-          Solar · EV Chargers · Air Conditioning · Maintenance — Sunshine Coast, QLD
+          Electrical · EV Chargers · Air Conditioning · Maintenance — Sunshine Coast, QLD
         </div>
 
         <div

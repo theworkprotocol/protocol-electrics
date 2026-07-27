@@ -20,35 +20,9 @@ type FAQCategory = {
 
 const faqData: FAQCategory[] = [
   {
-    label: "Solar & Battery",
-    icon: "☀️",
-    items: [
-      {
-        q: "How long does a solar install take?",
-        a: "Most residential solar installations are completed in 1–2 days. Day one covers panel mounting, inverter installation, and wiring. Day two (if required) handles commissioning, metering paperwork, and any switchboard work. We aim to leave the system generating power before we pack up.",
-      },
-      {
-        q: "What size system do I need?",
-        a: "System size depends on your household's daily energy consumption, how much of the day the home is occupied, and your roof's orientation and available space. We review three months of your power bills during the quote process and recommend a system sized to your actual usage — not just the largest one that fits.",
-      },
-      {
-        q: "Do you handle the Energex approval?",
-        a: "Yes — we manage the entire DNSP (Energex) approval process end-to-end. This includes the technical application, any required protection settings, and notifying your retailer once the system is approved and connected. You don't need to contact Energex at any point.",
-      },
-      {
-        q: "What's the difference between a hybrid inverter and a battery-ready inverter?",
-        a: "A hybrid inverter has battery management built in — connect a battery now or later without changing the inverter. A battery-ready inverter is a standard solar inverter marketed as 'upgradeable', but adding a battery usually requires a separate battery inverter or a full inverter swap. If battery storage is part of your plan, a true hybrid inverter is the better long-term choice.",
-      },
-    ],
-  },
-  {
     label: "Electrical",
     icon: "⚡",
     items: [
-      {
-        q: "Do I need a switchboard upgrade for solar?",
-        a: "Often yes. Older rewirable-fuse switchboards can't safely support a solar system and require replacement before a grid connection can be approved. Modern switchboards also need a dedicated solar circuit breaker and, in many cases, a bi-directional meter socket. We assess your existing board during the quote and include any required upgrade in the total price — no surprise invoices.",
-      },
       {
         q: "What is a Form 4 Certificate of Test?",
         a: "A Form 4 is Queensland's Certificate of Test — the compliance document a licensed electrician must complete and sign after completing electrical installation work. It confirms the work meets AS/NZS 3000 wiring rules and Queensland electrical safety regulations. We issue a Form 4 for every job we complete, and you should always ask for one if your previous electrician didn't provide one.",
@@ -69,7 +43,7 @@ const faqData: FAQCategory[] = [
     items: [
       {
         q: "What's the best home EV charger?",
-        a: "It depends on your vehicle. Tesla owners generally get the best experience with the Tesla Wall Connector — it integrates with the car's scheduling and load management features. For non-Tesla EVs (and some Tesla owners who want flexibility), the Zappi by myenergi is excellent: it can prioritise solar-generated power for charging, reducing your grid draw significantly. We'll recommend the right unit for your car, tariff, and solar setup.",
+        a: "It depends on your vehicle. Tesla owners generally get the best experience with the Tesla Wall Connector — it integrates with the car's scheduling and load management features. For non-Tesla EVs (and some Tesla owners who want flexibility), the Zappi by myenergi is excellent: it offers smart scheduling so you charge when power is cheapest. We'll recommend the right unit for your car and tariff.",
       },
       {
         q: "Do I need 3-phase power for an EV charger?",
@@ -109,7 +83,7 @@ const faqData: FAQCategory[] = [
       },
       {
         q: "What areas do you service?",
-        a: "We service residential homes across the full Sunshine Coast — from Noosa and Noosaville in the north down to Caloundra in the south, including Buderim, Maroochydore, Mooloolaba, Sippy Downs, Coolum, and surrounds. For larger residential solar projects we'll travel further — contact us to discuss.",
+        a: "We service residential homes across the full Sunshine Coast — from Noosa and Noosaville in the north down to Caloundra in the south, including Buderim, Maroochydore, Mooloolaba, Sippy Downs, Coolum, and surrounds. For larger residential projects we'll travel further — contact us to discuss.",
       },
       {
         q: "How do I get a quote?",
@@ -304,7 +278,7 @@ export default function FAQPage() {
               <span className="text-gradient">get asked most.</span>
             </h1>
             <p className="text-[#6B6B6B] text-lg max-w-xl">
-              Straightforward answers on solar, electrical, EV charging, and air conditioning — no jargon, no runaround.
+              Straightforward answers on electrical, EV charging, and air conditioning — no jargon, no runaround.
             </p>
             <SectionTrace className="mt-8" />
           </div>

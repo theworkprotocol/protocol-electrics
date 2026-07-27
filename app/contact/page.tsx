@@ -7,7 +7,6 @@ import type { Estimate } from "../api/estimate/route";
 
 const serviceOptions = [
   "Electrical Contracting",
-  "Solar Installation",
   "Air Conditioning",
   "EV Charger Installation",
   "Maintenance",
@@ -399,7 +398,6 @@ export default function ContactPage() {
             <div className="border border-white/5 divide-y divide-white/5 rounded-sm overflow-hidden">
               {[
                 { label: "Licence", value: "QBCC Licensed" },
-                { label: "Solar", value: "CEC Accredited" },
                 { label: "AC & Refrigeration", value: "ARCtick Licensed" },
                 { label: "Area", value: "Sunshine Coast, QLD" },
               ].map((c) => (
