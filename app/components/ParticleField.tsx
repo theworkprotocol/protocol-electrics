@@ -24,9 +24,9 @@ export default function ParticleField() {
     const isMobile = window.innerWidth < 768;
 
     // Grid density — fewer points on mobile
-    const COLS = isMobile ? 84 : 150;
-    const ROWS = isMobile ? 40 : 62;
-    const SPACING = 30; // world units between points
+    const COLS = isMobile ? 104 : 190;
+    const ROWS = isMobile ? 50 : 78;
+    const SPACING = 25; // world units between points
     const DEPTH = ROWS * SPACING;
 
     const dpr = Math.min(window.devicePixelRatio || 1, 1.5);
@@ -147,6 +147,15 @@ export default function ParticleField() {
       phase: (i * 2.399963) % (Math.PI * 2),
     }));
 
+    // Ambient starfield — fills the full viewport including above the horizon
+    const STAR_N = isMobile ? 260 : 620;
+    const stars = Array.from({ length: STAR_N }, (_, i) => ({
+      x: Math.random(),
+      y: Math.random(),
+      depth: 0.15 + Math.random() * 0.85, // parallax factor
+      phase: (i * 1.618) % (Math.PI * 2),
+    }));
+
     function smoothstep(v: number) {
       const c = Math.min(1, Math.max(0, v));
       return c * c * (3 - 2 * c);
@@ -155,9 +164,9 @@ export default function ParticleField() {
     function wave(x: number, z: number, time: number) {
       // Layered sines make rolling dune-like terrain
       return (
-        Math.sin(x * 0.011 + time * 0.32) * 46 +
-        Math.sin(z * 0.014 - time * 0.22) * 38 +
-        Math.sin((x + z) * 0.006 + time * 0.15) * 60
+        Math.sin(x * 0.011 + time * 0.32) * 74 +
+        Math.sin(z * 0.014 - time * 0.22) * 58 +
+        Math.sin((x + z) * 0.006 + time * 0.15) * 96
       );
     }
 
@@ -198,10 +207,10 @@ export default function ParticleField() {
 
           // Twinkle — cheap pseudo-noise per point
           const tw = 0.55 + 0.45 * Math.sin(t * 1.8 + x * 0.35 + worldZ * 0.21);
-          const alpha = fade * fade * tw * 0.6;
+          const alpha = fade * fade * tw * 0.85;
           if (alpha < 0.015) continue;
 
-          const size = Math.min(2.1, Math.max(0.5, 0.9 * persp * (0.7 + tw * 0.5)));
+          const size = Math.min(2.4, Math.max(0.6, 1.0 * persp * (0.7 + tw * 0.5)));
 
           // Occasional brighter "live" particle
           const bright = ((c * 31 + r * 17) % 23) === 0;
@@ -211,6 +220,21 @@ export default function ParticleField() {
           // fillRect is far cheaper than arc at this size and count
           ctx.fillRect(sx - size / 2, sy - size / 2, size, size);
         }
+      }
+
+      // ── Starfield ──
+      for (let i = 0; i < stars.length; i++) {
+        const s = stars[i];
+        // Slow ambient drift plus scroll parallax, wrapped to the viewport
+        const sx = ((s.x * width + t * 2.2 * s.depth) % (width + 20)) - 10;
+        const sy = ((s.y * height - scrollOffset * 0.06 * s.depth) % (height + 20) + height + 20) % (height + 20) - 10;
+        const tw = 0.5 + 0.5 * Math.sin(t * 1.4 + s.phase);
+        const alpha = (0.08 + 0.26 * tw) * s.depth;
+        const size = 0.6 + s.depth * 0.9;
+        ctx.fillStyle = i % 17 === 0
+          ? `rgba(255, 213, 128, ${alpha * 1.6})`
+          : `rgba(245, 166, 35, ${alpha})`;
+        ctx.fillRect(sx, sy, size, size);
       }
 
       // ── Morph layer ──
@@ -228,9 +252,10 @@ export default function ParticleField() {
         }
       }
 
-      const cx = width * (isMobile ? 0.5 : 0.6);
-      const cy = height * 0.46;
-      const scale = Math.min(width * 0.8, height * 0.62);
+      // Shapes sit high-right where headings leave open space, clear of cards
+      const cx = width * (isMobile ? 0.5 : 0.68);
+      const cy = height * (isMobile ? 0.38 : 0.32);
+      const scale = Math.min(width * 0.58, height * 0.56);
 
       for (let i = 0; i < morphParts.length; i++) {
         const p = morphParts[i];
@@ -261,7 +286,7 @@ export default function ParticleField() {
         }
 
         const tw = 0.6 + 0.4 * Math.sin(t * 2.1 + p.phase * 3);
-        const alpha = (0.06 + strength * 0.72) * tw;
+        const alpha = (0.06 + strength * 0.82) * tw;
         if (alpha < 0.02) continue;
         const size = 0.9 + strength * 1.1;
 

@@ -69,8 +69,8 @@ export default function HomePage() {
 
         {/* ── Hero ── */}
         <section className="relative min-h-screen flex items-center pt-16 overflow-hidden">
-          <div className="dot-grid absolute inset-0 opacity-60" />
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_60%_-10%,_rgba(13,27,42,0.9)_0%,_transparent_70%)]" />
+          <div className="dot-grid absolute inset-0 opacity-25" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_60%_-10%,_rgba(13,27,42,0.45)_0%,_transparent_70%)]" />
           <div className="absolute inset-0 bg-[radial-gradient(ellipse_50%_50%_at_100%_50%,_rgba(245,166,35,0.04)_0%,_transparent_70%)]" />
           <ParallaxGlow speed={120} className="animate-pulse-glow absolute top-1/4 right-1/4 w-[500px] h-[500px] bg-[#F5A623]/4 rounded-full blur-[100px] pointer-events-none" />
           <ParallaxGlow speed={-70} className="animate-pulse-glow delay-300 absolute bottom-1/3 left-1/3 w-[300px] h-[300px] bg-[#0D1B2A]/80 rounded-full blur-[80px] pointer-events-none" />
