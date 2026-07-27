@@ -8,6 +8,7 @@ import BrandStrip from "./components/BrandStrip";
 import Magnetic from "./components/Magnetic";
 import ParallaxGlow from "./components/ParallaxGlow";
 import PipelineFlow from "./components/PipelineFlow";
+import SplitReveal from "./components/SplitReveal";
 
 export const metadata: Metadata = {
   title: "Protocol Electrics | Sunshine Coast Electrician",
@@ -181,11 +182,10 @@ export default function HomePage() {
             </div>
           </Reveal>
           <div className="flex items-end justify-between mb-12 gap-4">
-            <Reveal delay={60}>
-              <h2 className="text-4xl md:text-5xl font-bold text-[#F0EDE8] leading-tight max-w-sm">
-                Built around<br />your project.
-              </h2>
-            </Reveal>
+            <SplitReveal
+              lines={[{ text: "Built around" }, { text: "your project." }]}
+              className="text-4xl md:text-5xl font-bold text-[#F0EDE8] leading-tight max-w-sm"
+            />
             <Reveal delay={120}>
               <Link href="/services" className="hidden md:flex items-center gap-2 text-sm text-[#6B6B6B] hover:text-[#F5A623] transition-colors">
                 All services <span>→</span>
@@ -235,11 +235,10 @@ export default function HomePage() {
                 <span className="text-xs font-semibold tracking-widest uppercase text-[#F5A623]">The Process</span>
               </div>
             </Reveal>
-            <Reveal delay={60}>
-              <h2 className="text-4xl md:text-5xl font-bold text-[#F0EDE8] leading-tight mb-16 max-w-sm">
-                Simple from<br />start to finish.
-              </h2>
-            </Reveal>
+            <SplitReveal
+              lines={[{ text: "Simple from" }, { text: "start to finish." }]}
+              className="text-4xl md:text-5xl font-bold text-[#F0EDE8] leading-tight mb-16 max-w-sm"
+            />
 
             <PipelineFlow />
             <div className="grid grid-cols-1 md:grid-cols-4 gap-px bg-white/5">
@@ -319,13 +318,13 @@ export default function HomePage() {
               </div>
             </Reveal>
 
-            <Reveal delay={80}>
-              <h2 className="text-5xl md:text-6xl font-bold mb-6 leading-tight">
-                <span className="text-[#F0EDE8]">Ready to start</span>
-                <br />
-                <span className="text-gradient">your project?</span>
-              </h2>
-            </Reveal>
+            <SplitReveal
+              lines={[
+                { text: "Ready to start", className: "text-[#F0EDE8]" },
+                { text: "your project?", className: "text-gradient" },
+              ]}
+              className="text-5xl md:text-6xl font-bold mb-6 leading-tight"
+            />
 
             <Reveal delay={140}>
               <p className="text-[#6B6B6B] text-lg max-w-md mx-auto mb-10">

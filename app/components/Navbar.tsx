@@ -1,8 +1,42 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { usePathname } from "next/navigation";
+
+const GLYPHS = "!<>-_\\/[]{}=+*^?#ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+
+function DecodeText({ text }: { text: string }) {
+  const [display, setDisplay] = useState(text);
+  const timer = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  function scramble() {
+    if (timer.current) clearInterval(timer.current);
+    let frame = 0;
+    timer.current = setInterval(() => {
+      frame += 1;
+      const settled = Math.ceil(frame / 2);
+      setDisplay(
+        text
+          .split("")
+          .map((ch, i) =>
+            ch === " " || i < settled ? ch : GLYPHS[(Math.random() * GLYPHS.length) | 0]
+          )
+          .join("")
+      );
+      if (settled >= text.length && timer.current) {
+        clearInterval(timer.current);
+        timer.current = null;
+      }
+    }, 28);
+  }
+
+  return (
+    <span onMouseEnter={scramble} className="inline-block" style={{ minWidth: `${text.length * 0.62}em` }}>
+      {display}
+    </span>
+  );
+}
 
 const links = [
   { href: "/services", label: "Services" },
@@ -44,7 +78,7 @@ export default function Navbar() {
                   pathname === l.href ? "text-[#F0EDE8]" : "text-[#6B6B6B] hover:text-[#F0EDE8]"
                 }`}
               >
-                {l.label}
+                <DecodeText text={l.label} />
                 <span className={`absolute -bottom-0.5 left-0 h-px bg-[#F5A623] transition-all duration-300 ${
                   pathname === l.href ? "w-full" : "w-0 group-hover:w-full"
                 }`} />

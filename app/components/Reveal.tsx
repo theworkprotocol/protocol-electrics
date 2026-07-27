@@ -41,11 +41,11 @@ export function Reveal({
 
   const hiddenTransform =
     direction === "up"
-      ? "translateY(28px)"
+      ? "perspective(900px) translateY(28px) rotateX(8deg)"
       : direction === "left"
-      ? "translateX(-28px)"
+      ? "perspective(900px) translateX(-28px) rotateY(-6deg)"
       : direction === "right"
-      ? "translateX(28px)"
+      ? "perspective(900px) translateX(28px) rotateY(6deg)"
       : "scale(0.95)";
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -58,6 +58,7 @@ export function Reveal({
         opacity: visible ? 1 : 0,
         transform: visible ? "none" : hiddenTransform,
         transition: `opacity 0.65s cubic-bezier(0.16,1,0.3,1) ${delay}ms, transform 0.65s cubic-bezier(0.16,1,0.3,1) ${delay}ms`,
+        transformOrigin: "center 85%",
         willChange: "opacity, transform",
       }}
     >

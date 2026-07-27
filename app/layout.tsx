@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import ParticleField from "./components/ParticleField";
+import TiltEffect from "./components/TiltEffect";
 import "./globals.css";
 
 const inter = Inter({
@@ -102,6 +103,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-full flex flex-col">
         <ParticleField />
+        <TiltEffect />
         {children}
       </body>
     </html>
