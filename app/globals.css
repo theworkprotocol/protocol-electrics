@@ -346,3 +346,20 @@ h1, h2, h3 {
 .line-mask span {
   text-shadow: none;
 }
+
+/* ─── Neon wordmark: "Protocol" cycles colour with a neon glow ─── */
+.wordmark-neon {
+  background: linear-gradient(100deg, #F5A623 0%, #FFD580 30%, #6FC3FF 55%, #FF8A3D 75%, #F5A623 100%);
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: gradient-drift 5s ease-in-out infinite;
+  filter: drop-shadow(0 0 7px rgba(245, 166, 35, 0.7)) drop-shadow(0 0 20px rgba(111, 195, 255, 0.3));
+  text-shadow: none;
+}
+
+/* Filters also clip to slabs inside the hero masks */
+.line-mask .text-gradient {
+  filter: none;
+}

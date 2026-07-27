@@ -63,8 +63,8 @@ export default function Navbar() {
               <span className="absolute inset-0 rounded-full bg-[#F5A623] group-hover:scale-150 transition-transform duration-300" />
               <span className="absolute inset-0 rounded-full bg-[#F5A623] animate-ping opacity-30" />
             </div>
-            <span className="text-sm font-semibold tracking-[0.15em] uppercase text-[#F0EDE8]">
-              Protocol <span className="text-[#F5A623]">Electrics</span>
+            <span className="text-sm font-bold tracking-[0.15em] uppercase text-[#F0EDE8]">
+              <span className="wordmark-neon">Protocol</span> <span className="text-[#F5A623]">Electrics</span>
             </span>
           </Link>
 

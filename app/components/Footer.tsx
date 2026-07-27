@@ -13,8 +13,8 @@ export default function Footer() {
           <div className="md:col-span-2">
             <div className="flex items-center gap-2.5 mb-4">
               <div className="w-2 h-2 rounded-full bg-[#F5A623]" />
-              <span className="text-sm font-semibold tracking-[0.15em] uppercase text-[#F0EDE8]">
-                Protocol <span className="text-[#F5A623]">Electrics</span>
+              <span className="text-sm font-bold tracking-[0.15em] uppercase text-[#F0EDE8]">
+                <span className="wordmark-neon">Protocol</span> <span className="text-[#F5A623]">Electrics</span>
               </span>
             </div>
             <p className="text-xs text-[#6B6B6B] leading-relaxed max-w-xs">
