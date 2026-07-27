@@ -318,3 +318,11 @@ h1, h2, h3 {
 @media (prefers-reduced-motion: reduce) {
   .scroll-cue-line { animation: none; }
 }
+
+/* ─── Soft glow on bone-white text ─── */
+.text-\[\#F0EDE8\] {
+  text-shadow: 0 0 16px rgba(240, 237, 232, 0.22);
+}
+h1, h2, h3 {
+  text-shadow: 0 0 22px rgba(240, 237, 232, 0.3), 0 0 64px rgba(245, 166, 35, 0.12);
+}
