@@ -77,58 +77,59 @@ export default function ParticleField() {
     }
 
     const shapes = [
-      // Lightning bolt (filled)
+      // Sun — solar
       samplePoints((c) => {
         c.beginPath();
-        c.moveTo(268, 30);
-        c.lineTo(150, 262);
-        c.lineTo(224, 262);
-        c.lineTo(180, 450);
-        c.lineTo(330, 196);
-        c.lineTo(248, 196);
-        c.lineTo(312, 30);
-        c.closePath();
+        c.arc(240, 230, 74, 0, Math.PI * 2);
         c.fill();
+        for (let k = 0; k < 8; k++) {
+          const a = (k / 8) * Math.PI * 2;
+          c.beginPath();
+          c.moveTo(240 + Math.cos(a) * 112, 230 + Math.sin(a) * 112);
+          c.lineTo(240 + Math.cos(a) * 170, 230 + Math.sin(a) * 170);
+          c.stroke();
+        }
       }, 7),
-      // House outline with door
+      // Snowflake — air conditioning
       samplePoints((c) => {
-        c.beginPath();
-        c.moveTo(52, 238);
-        c.lineTo(240, 84);
-        c.lineTo(428, 238);
-        c.stroke();
-        c.beginPath();
-        c.moveTo(96, 238);
-        c.lineTo(96, 428);
-        c.lineTo(384, 428);
-        c.lineTo(384, 238);
-        c.stroke();
-        c.beginPath();
-        c.moveTo(210, 428);
-        c.lineTo(210, 330);
-        c.lineTo(270, 330);
-        c.lineTo(270, 428);
-        c.stroke();
+        c.lineWidth = 16;
+        for (let k = 0; k < 6; k++) {
+          const a = (k / 6) * Math.PI * 2 + Math.PI / 6;
+          const dx = Math.cos(a);
+          const dy = Math.sin(a);
+          c.beginPath();
+          c.moveTo(240, 235);
+          c.lineTo(240 + dx * 158, 235 + dy * 158);
+          c.stroke();
+          // Branches at 60% of each arm
+          const bx = 240 + dx * 95;
+          const by = 235 + dy * 95;
+          for (const side of [-1, 1]) {
+            const ba = a + (side * Math.PI) / 3.2;
+            c.beginPath();
+            c.moveTo(bx, by);
+            c.lineTo(bx + Math.cos(ba) * 46, by + Math.sin(ba) * 46);
+            c.stroke();
+          }
+        }
       }, 6),
-      // Light bulb with filament
+      // Combination wrench — electrical maintenance
       samplePoints((c) => {
+        c.lineWidth = 34;
+        // Shaft
         c.beginPath();
-        c.arc(240, 196, 112, 0, Math.PI * 2);
+        c.moveTo(168, 356);
+        c.lineTo(292, 208);
         c.stroke();
+        // Open-end head (arc with a gap facing up-right)
+        c.lineWidth = 30;
         c.beginPath();
-        c.moveTo(206, 330);
-        c.lineTo(274, 330);
-        c.moveTo(212, 366);
-        c.lineTo(268, 366);
-        c.moveTo(222, 402);
-        c.lineTo(258, 402);
+        c.arc(316, 180, 58, 0.15 * Math.PI, 1.55 * Math.PI);
         c.stroke();
+        // Closed ring end
+        c.lineWidth = 26;
         c.beginPath();
-        c.moveTo(214, 262);
-        c.lineTo(214, 218);
-        c.lineTo(240, 180);
-        c.lineTo(266, 218);
-        c.lineTo(266, 262);
+        c.arc(150, 380, 44, 0, Math.PI * 2);
         c.stroke();
       }, 6),
     ].filter((s) => s.length > 0);
@@ -354,21 +355,21 @@ export default function ParticleField() {
           p.py = ty;
           p.init = true;
         } else {
-          const ease = strength > 0.01 ? 0.09 : 0.035;
+          const ease = strength > 0.01 ? 0.14 : 0.035;
           p.px += (tx - p.px) * ease;
           p.py += (ty - p.py) * ease;
         }
 
         // Current buzz — formed shapes vibrate with micro-jitter
         if (strength > 0.4) {
-          p.px += (Math.random() - 0.5) * strength * 1.4;
-          p.py += (Math.random() - 0.5) * strength * 1.4;
+          p.px += (Math.random() - 0.5) * strength * 0.7;
+          p.py += (Math.random() - 0.5) * strength * 0.7;
         }
 
         const tw = 0.6 + 0.4 * Math.sin(t * 2.1 + p.phase * 3);
-        const alpha = (0.06 + strength * 0.82) * tw;
+        const alpha = (0.06 + strength * 0.95) * tw;
         if (alpha < 0.02) continue;
-        const size = 0.9 + strength * 1.1;
+        const size = 1.0 + strength * 1.3;
 
         ctx.fillStyle =
           i % 5 < 2
