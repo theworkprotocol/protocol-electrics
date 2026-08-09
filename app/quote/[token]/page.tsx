@@ -25,11 +25,10 @@ interface PublicQuote {
 }
 
 async function fetchQuote(token: string): Promise<PublicQuote | null> {
-  const hookUrl = process.env.MONIQUE_HOOK_URL;
-  if (!hookUrl) return null;
-  const origin = new URL(hookUrl).origin;
+  const engineUrl = process.env.ENGINE_URL;
+  if (!engineUrl) return null;
   try {
-    const res = await fetch(`${origin}/api/public/quote/${token}`, { cache: "no-store" });
+    const res = await fetch(`${engineUrl}/api/public/quote/${token}`, { cache: "no-store" });
     if (!res.ok) return null;
     return (await res.json()) as PublicQuote;
   } catch {

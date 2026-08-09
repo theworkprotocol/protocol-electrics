@@ -1,5 +1,6 @@
 /**
- * Notify Monique (Blake's personal assistant platform) when a quote/enquiry lands.
+ * Feed an estimator enquiry into protocol-engine (historically this went to
+ * Monique directly — she now subscribes to the engine's events instead).
  * Fire-and-forget: a failure here must never break the customer's submission.
  */
 
@@ -18,31 +19,31 @@ interface EnquiryLike {
 }
 
 export async function notifyMonique(enquiry: EnquiryLike): Promise<void> {
-  const url = process.env.MONIQUE_HOOK_URL;
-  const secret = process.env.MONIQUE_HOOK_SECRET;
+  const url = process.env.ENGINE_URL;
+  const secret = process.env.ENGINE_SECRET;
   if (!url || !secret) return; // not configured — silently skip
 
   const total = enquiry.estimate?.totalCost;
-  const midpoint = total ? Math.round((total.min + total.max) / 2) : undefined;
 
-  const res = await fetch(url, {
+  const res = await fetch(`${url}/api/enquiry`, {
     method: "POST",
-    headers: { "Content-Type": "application/json", "X-Hook-Secret": secret },
+    headers: { "Content-Type": "application/json", "X-Engine-Secret": secret },
     body: JSON.stringify({
       source: "estimator",
-      client_name: enquiry.name,
-      contact: [enquiry.email, enquiry.phone].filter(Boolean).join(" · "),
+      name: enquiry.name,
+      email: enquiry.email ?? "",
+      phone: enquiry.phone ?? "",
       job_type: enquiry.estimate?.jobType ?? enquiry.service ?? "unspecified",
-      estimated_amount: midpoint,
+      description: enquiry.description?.slice(0, 500) ?? "",
       details: {
-        description: enquiry.description?.slice(0, 500),
         estimate_summary: enquiry.estimate?.summary?.slice(0, 300),
         estimate_range: total ? `$${total.min}–$${total.max}` : undefined,
-        confidence: enquiry.estimate?.confidence,
+        estimate_confidence: enquiry.estimate?.confidence,
       },
     }),
   });
+
   if (!res.ok) {
-    console.error("[monique] quote notify failed:", res.status, await res.text().catch(() => ""));
+    throw new Error(`engine responded ${res.status}`);
   }
 }

@@ -51,29 +51,31 @@ export type SubmitResult =
   | { ok: false; rateLimited: true; retryAfterSeconds: number };
 
 export async function submitEnquiry(f: EnquiryFields, clientIp: string): Promise<SubmitResult> {
-  const url = process.env.MONIQUE_HOOK_URL;
-  const secret = process.env.MONIQUE_HOOK_SECRET;
+  // protocol-engine is the pipeline: it stores, rate-limits, auto-drafts,
+  // confirms to the customer, and fans events out (Monique subscribes for
+  // pings). Monique being offline changes nothing here.
+  const url = process.env.ENGINE_URL;
+  const secret = process.env.ENGINE_SECRET;
 
   let delivered = false;
   if (url && secret) {
     try {
-      const res = await fetch(url, {
+      const res = await fetch(`${url}/api/enquiry`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "X-Hook-Secret": secret,
+          "X-Engine-Secret": secret,
           "X-Client-IP": clientIp,
         },
         body: JSON.stringify({
           source: "enquire-form",
-          client_name: f.name.trim(),
-          contact: [f.email.trim(), f.phone.trim()].filter(Boolean).join(" · "),
+          name: f.name.trim(),
+          email: f.email.trim(),
+          phone: f.phone.trim(),
+          suburb: f.suburb,
           job_type: f.jobType || "unspecified",
-          details: {
-            description: f.description.slice(0, 1000),
-            suburb: f.suburb,
-            preferred_timing: f.timing,
-          },
+          description: f.description.slice(0, 1000),
+          timing: f.timing,
         }),
       });
       if (res.status === 429) {
@@ -82,20 +84,20 @@ export async function submitEnquiry(f: EnquiryFields, clientIp: string): Promise
       }
       delivered = res.ok;
     } catch (e) {
-      console.error("[enquiry] Monique unreachable", e);
+      console.error("[enquiry] engine unreachable", e);
     }
   }
 
+  // Engine down → the enquiry still reaches Blake and the customer still
+  // gets confirmed, from here. Never the void.
   if (!delivered) {
     await sendEnquiryFallback(f).catch((e) =>
       console.error("[enquiry] fallback email failed — enquiry logged here only", e, f),
     );
+    await sendCustomerConfirmation(f).catch((e) =>
+      console.error("[enquiry] customer confirmation failed", e),
+    );
   }
-
-  // Confirmation must never block or break the submission.
-  await sendCustomerConfirmation(f).catch((e) =>
-    console.error("[enquiry] customer confirmation failed", e),
-  );
 
   return { ok: true };
 }
