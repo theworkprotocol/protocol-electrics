@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { JsonLd, servicesCatalogJsonLd } from "@/lib/schema";
 import Link from "next/link";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
@@ -84,6 +85,7 @@ const services = [
 export default function ServicesPage() {
   return (
     <>
+      <JsonLd data={servicesCatalogJsonLd(services)} />
       <Navbar />
       <main className="flex-1 pt-16">
 

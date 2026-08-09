@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter, Space_Grotesk, JetBrains_Mono } from "next/font/google";
 import ParticleField from "./components/ParticleField";
 import TiltEffect from "./components/TiltEffect";
+import { businessJsonLd } from "@/lib/schema";
 import "./globals.css";
 
 const inter = Inter({
@@ -54,36 +55,8 @@ export const metadata: Metadata = {
   },
 };
 
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@type": "ElectricalContractor",
-  name: "Protocol Electrics",
-  url: "https://www.protocolelectrics.com.au",
-  telephone: "0428 653 509",
-  address: {
-    "@type": "PostalAddress",
-    addressRegion: "QLD",
-    addressLocality: "Sunshine Coast",
-    addressCountry: "AU",
-  },
-  areaServed: [
-    "Sunshine Coast",
-    "Noosa",
-    "Buderim",
-    "Maroochydore",
-    "Mooloolaba",
-    "Caloundra",
-    "Sippy Downs",
-    "Coolum Beach",
-  ],
-  priceRange: "$$",
-  description:
-    "QBCC licensed electrical contractor on the Sunshine Coast specialising in residential electrical, EV charger installation, and air conditioning.",
-  hasCredential: [
-    "QBCC Licensed Electrical Contractor",
-    "ARCtick Licensed",
-  ],
-};
+// One consistent business node site-wide — see lib/schema.tsx + agent-bookability-spec.md.
+const jsonLd = businessJsonLd();
 
 export default function RootLayout({
   children,

@@ -3,6 +3,7 @@ import Link from "next/link";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
 import { Reveal } from "../../components/Reveal";
+import { JsonLd, suburbServiceJsonLd } from "@/lib/schema";
 
 const suburbs = [
   {
@@ -155,6 +156,7 @@ export default async function SuburbPage({
 
   return (
     <>
+      <JsonLd data={suburbServiceJsonLd(suburb.name)} />
       <Navbar />
       <main className="flex-1 pt-16">
 
