@@ -502,6 +502,12 @@ export default function BookPage() {
 
         {/* ── Wizard ── */}
         <section className="max-w-3xl mx-auto px-6 py-16">
+          <p className="mb-8 text-center text-xs text-[#6B6B6B]">
+            In a hurry?{" "}
+            <a href="/enquire" className="text-[#F5A623] underline-offset-2 hover:underline">
+              Skip the estimator — quick enquiry form
+            </a>
+          </p>
           <StepIndicator step={step} />
 
           {/* ── STEP 1: Describe ── */}

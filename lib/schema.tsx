@@ -18,7 +18,8 @@ export const BUSINESS = {
   postcode: "4573",
   // Mount Coolum locality centre — deliberately not the home address.
   geo: { latitude: -26.5686, longitude: 153.0908 },
-  bookingUrl: "https://www.protocolelectrics.com.au/book",
+  /** Canonical machine path: the semantic no-JS form. /book (AI estimator) stays the human showcase. */
+  bookingUrl: "https://www.protocolelectrics.com.au/enquire",
   description:
     "QBCC licensed electrical contractor servicing the Sunshine Coast — residential electrical, EV charger installation, and air conditioning. By appointment; book online any time.",
   areaServed: [

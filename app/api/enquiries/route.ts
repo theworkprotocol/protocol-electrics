@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createEnquiry } from "@/lib/store";
-import { sendEnquiryNotification } from "@/lib/email";
+import { sendCustomerConfirmation, sendEnquiryNotification } from "@/lib/email";
 import { notifyMonique } from "@/lib/monique";
 
 export async function POST(req: NextRequest) {
@@ -26,6 +26,21 @@ export async function POST(req: NextRequest) {
       await notifyMonique({ name, email, phone, service, description, estimate });
     } catch (moniqueErr) {
       console.error("[monique] Failed to notify:", moniqueErr);
+    }
+
+    // Every enquiry path confirms to the customer within 60s (agent-bookability-spec.md).
+    try {
+      await sendCustomerConfirmation({
+        name,
+        email,
+        phone: phone ?? "",
+        suburb: "",
+        jobType: estimate?.jobType ?? service ?? "",
+        description,
+        timing: "",
+      });
+    } catch (confirmErr) {
+      console.error("[email] Failed to send customer confirmation:", confirmErr);
     }
 
     return NextResponse.json(enquiry, { status: 201 });

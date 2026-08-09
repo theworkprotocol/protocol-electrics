@@ -287,3 +287,87 @@ export async function sendEnquiryNotification(enquiry: Enquiry): Promise<void> {
     throw new Error(`Resend error: ${JSON.stringify(error)}`);
   }
 }
+
+// ---------- Customer-facing confirmation (agent-bookability-spec.md, Phase 2) ----------
+
+/** Where customer replies land until admin@ has a real mailbox — the ONE place to swap. */
+export const ENQUIRY_REPLY_TO = process.env.ENQUIRY_REPLY_TO || "blake.k.hh@gmail.com";
+/** Stated everywhere a promise is made: form, thanks page, confirmation email. */
+export const RESPONSE_PROMISE = "within 24 hours";
+
+export interface EnquiryFields {
+  name: string;
+  email: string;
+  phone: string;
+  suburb: string;
+  jobType: string;
+  description: string;
+  timing: string;
+}
+
+const row = (label: string, value: string) =>
+  value
+    ? `<tr><td style="padding:6px 0; color:#6B6B6B; font-size:13px; width:130px;">${label}</td>
+       <td style="padding:6px 0; color:#F0EDE8; font-size:14px;">${value}</td></tr>`
+    : "";
+
+/**
+ * Echo every submitted detail back to the customer within 60s — the structured
+ * confirmation agents (and humans) need to trust the enquiry landed.
+ */
+export async function sendCustomerConfirmation(f: EnquiryFields): Promise<void> {
+  if (!resend) {
+    console.log("[email] RESEND_API_KEY not set — skipping customer confirmation.");
+    return;
+  }
+  const html = `
+<body style="margin:0; background:#0A0A0A; font-family:Arial,Helvetica,sans-serif;">
+  <table width="100%" cellpadding="0" cellspacing="0" style="max-width:560px; margin:0 auto; padding:32px 20px;">
+    <tr><td style="padding-bottom:24px;">
+      <span style="color:#F0EDE8; font-size:20px; font-weight:bold;">Protocol</span>
+      <span style="color:#F5A623; font-size:20px; font-weight:bold;"> Electrics</span>
+    </td></tr>
+    <tr><td style="color:#F0EDE8; font-size:16px; padding-bottom:12px;">
+      Thanks ${f.name.split(" ")[0]} — your enquiry is in.
+    </td></tr>
+    <tr><td style="color:#6B6B6B; font-size:14px; line-height:1.6; padding-bottom:20px;">
+      Blake will come back to you <strong style="color:#F5A623;">${RESPONSE_PROMISE}</strong> with a
+      written fixed-price quote or a couple of quick questions. Here's what you sent:
+    </td></tr>
+    <tr><td style="background:#111111; border:1px solid #262626; border-radius:8px; padding:16px 20px;">
+      <table cellpadding="0" cellspacing="0" width="100%">
+        ${row("Job", f.jobType)}
+        ${row("Suburb", f.suburb)}
+        ${row("Timing", f.timing)}
+        ${row("Details", f.description)}
+        ${row("Phone", f.phone)}
+        ${row("Email", f.email)}
+      </table>
+    </td></tr>
+    <tr><td style="color:#6B6B6B; font-size:13px; line-height:1.6; padding-top:20px;">
+      Need us sooner? Call or text <a href="tel:0428653509" style="color:#F5A623;">0428 653 509</a>.<br/>
+      Protocol Electrics · QBCC licensed · Sunshine Coast, QLD
+    </td></tr>
+  </table>
+</body>`.trim();
+
+  const { error } = await resend.emails.send({
+    from: FROM_EMAIL,
+    to: f.email,
+    replyTo: ENQUIRY_REPLY_TO,
+    subject: "Your enquiry is in — Protocol Electrics",
+    html,
+  });
+  if (error) throw new Error(`Resend error: ${JSON.stringify(error)}`);
+}
+
+/** Last-resort owner email if Monique's pipeline is unreachable — an enquiry is never lost. */
+export async function sendEnquiryFallback(f: EnquiryFields): Promise<void> {
+  if (!resend) return;
+  await resend.emails.send({
+    from: FROM_EMAIL,
+    to: OWNER_EMAIL,
+    subject: `⚠️ Enquiry (pipeline unreachable) — ${f.jobType} — ${f.name}`,
+    html: `<pre style="font-size:14px;">${JSON.stringify(f, null, 2)}</pre>`,
+  });
+}

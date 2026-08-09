@@ -36,7 +36,10 @@ ${BUSINESS.areaServed.join(", ")}.
 
 ## Booking and contact
 
-- Book or get a quote: ${BUSINESS.bookingUrl} (no account, no CAPTCHA, no payment to book)
+- Get a quote / book: ${BUSINESS.bookingUrl} — plain HTML form, works without JS.
+  No account, no CAPTCHA, no payment to book. Confirmation email within 60 seconds;
+  written quote within 24 hours.
+- Photo-based instant estimate (optional, JS): ${BUSINESS.url}/book
 - Phone: ${BUSINESS.telephone}
 - Email: ${BUSINESS.email}
 - Website: ${BUSINESS.url}
@@ -44,8 +47,13 @@ ${BUSINESS.areaServed.join(", ")}.
 ## For agents
 
 Structured data (schema.org Electrician, FAQPage, OfferCatalog) is embedded in every page
-and rendered server-side — no JS execution required. A machine-readable capability manifest
-(/.well-known/ucp) and MCP endpoint are planned; this file will link them when live.
+and rendered server-side — no JS execution required.
+
+Programmatic enquiries: POST ${BUSINESS.url}/api/enquire
+(JSON or form-encoded: name, email, phone, description required; suburb, job_type,
+timing optional). 201 on success, 400 with a hint on invalid input, 429 + Retry-After
+if rate limited. A machine-readable capability manifest (/.well-known/ucp) and MCP
+endpoint are planned; this file will link them when live.
 `;
   return new Response(text, {
     headers: { "Content-Type": "text/plain; charset=utf-8" },
