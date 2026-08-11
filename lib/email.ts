@@ -4,7 +4,8 @@ import type { Enquiry } from "@/lib/store";
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
 const OWNER_EMAIL = process.env.OWNER_EMAIL || "admin@protocolelectrics.com.au";
-const FROM_EMAIL = "Protocol Electrics <onboarding@resend.dev>";
+// Verified domain sender (Resend DNS live 9 Aug 2026). Env-overridable.
+const FROM_EMAIL = process.env.FROM_EMAIL || "Protocol Electrics <admin@protocolelectrics.com.au>";
 const ADMIN_URL = "https://www.protocolelectrics.com.au/admin";
 
 function formatCurrency(amount: number): string {
