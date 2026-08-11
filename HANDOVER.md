@@ -17,3 +17,8 @@ Voice settled (Cartesia "Aila", no live pricing on calls — written quotes only
 Nameservers on Vercel DNS; Resend records live (send MX/SPF, root DKIM, DMARC) — Blake ran the four adds in Terminal after a settings deny blocked vercel CLI here. Fixed: `vercel dns *` now ask, deploys + all rm/remove subcommands hard-denied. Sender flipped to admin@protocolelectrics.com.au (env-overridable FROM_EMAIL); real-path test confirmation sent to Blake's Gmail OK. Google Workspace: verification TXT live, MX pending (admin console down).
 **Blocked:** owner notifications bounce until Google MX land — set OWNER_EMAIL=blake.k.hh@gmail.com in Vercel env as interim.
 **Needs Blake:** Google MX records when console loads; then revert OWNER_EMAIL + point ENQUIRY_REPLY_TO at admin@.
+
+## 2026-08-09 (email loop closed)
+Email fully live and verified end-to-end: Google Workspace MX + root SPF up, admin@protocolelectrics.com.au is a working mailbox. Sender = admin@ (FROM_EMAIL env-overridable), ENQUIRY_REPLY_TO = admin@; OWNER_EMAIL deleted from Vercel so the code default (admin@) governs. Live-site enquiry submitted, owner notification landed in admin@. protocol-engine pushed to github.com/theworkprotocol/protocol-engine (private, 2 commits, no secrets tracked).
+**Blocked:** nothing on email.
+**Needs Blake:** deploy protocol-engine (Next.js preset, all defaults); then set ENGINE_URL + matching ENGINE_SECRET in the PE Vercel project — currently zero ENGINE_* vars there, so the site still falls back to email.
