@@ -291,8 +291,8 @@ export async function sendEnquiryNotification(enquiry: Enquiry): Promise<void> {
 
 // ---------- Customer-facing confirmation (agent-bookability-spec.md, Phase 2) ----------
 
-/** Where customer replies land until admin@ has a real mailbox — the ONE place to swap. */
-export const ENQUIRY_REPLY_TO = process.env.ENQUIRY_REPLY_TO || "blake.k.hh@gmail.com";
+/** Where customer replies land. admin@ mailbox live 9 Aug 2026 (Google Workspace). */
+export const ENQUIRY_REPLY_TO = process.env.ENQUIRY_REPLY_TO || "admin@protocolelectrics.com.au";
 /** Stated everywhere a promise is made: form, thanks page, confirmation email. */
 export const RESPONSE_PROMISE = "within 24 hours";
 
